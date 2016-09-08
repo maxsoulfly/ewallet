@@ -1,0 +1,133 @@
+body { width: 100%; text-align: center; padding: 0; margin: 0; background-color: #FEF8DB; direction: rtl; font-family: 'Open Sans', sans-serif; color: #32210F;  }
+
+select,
+input {
+    border: 0;
+    outline: 0;
+    font-weight: bold;
+    font-family: 'Alef', sans-serif;
+}
+input {
+    font-size: 0.7em;
+    width: 10rem;
+    border-bottom: 2px solid #32210F;
+    background-color: #FEF8DB;
+    color: #CB9B2D
+}
+input[readonly] { border-bottom: 0; }
+
+select {
+    font-size: 1.4rem;
+    width: 8rem;
+    height: 2rem;
+    background-color: #CB9B2D;
+    color: #ffffff;
+}
+
+ul, ol { list-style: none; margin: 0; padding: 0;}
+
+/*******************************************
+*    HEADER
+********************************************/
+
+#header {
+    display: flex; flex-direction: row-reverse; flex-wrap: nowrap; justify-content: space-around; align-items: center;
+    background-color: #7D5D3A; color: #CB9B2D; height: 3em;
+}
+#header a { color: #ffffff; font-size: 1.8em; font-weight: normal; }
+#header p.main-title {font-size: 1.5em; font-weight: 700; line-height: 1em;  }
+
+/*******************************************
+*    BODY
+********************************************/
+
+
+#body > .hello { font-weight: bold; margin: 1.5em; }
+#body > .hello h1,
+#body > .hello h2 { margin: 0; line-height: 1.2em; font-family: 'Alef', sans-serif;  }
+#body > .hello h1 { font-size: 2em; }
+#body > .hello h2 { font-size: 1.5em; }
+#body > .title { color: #CB9B2D; background-color: #32210F; font-weight: bold; padding: 0; margin: 1em 0; font-size: 1em; display: flex; flex-flow: row; justify-content: space-around;}
+#body > .title h1 { font-size: 2em; font-family: 'Alef', sans-serif; align-items: center; margin: 0; padding: 0; }
+
+#body > .container-flex {
+    display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-around; align-items: center; max-width: 28em; margin: 0 auto;
+}
+#body > .container-flex > a.button-big {
+    color: #CB9B2D;
+    background-color: #32210F;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 5em;
+    height: 4.5em;
+    border-radius: 5%;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1em;
+    margin: 1em .5em;
+    padding: 0 1em;
+    vertical-align: middle;
+    text-wrap: normal;
+    border-collapse: collapse;
+}
+
+#body > .container { font-family: 'Rubik', sans-serif; max-width: 28em; margin: 0 auto; font-size: 2em; }
+
+#body > .container a.button-med,
+#body > .container a.button { color: #CB9B2D; background-color: #32210F; display: flex; align-items: center; justify-content: center; border-radius: 7px; }
+#body > .container a.button { font-size: 2.5em; width: 4.5em; height: 1.4em; }
+#body > .container a.button-med.bg-green,
+#body > .container a.button.bg-green { background-color: #0A9444; color:#FFFFFF !important;}
+#body > .container a.button-med.bg-red,
+#body > .container a.button.bg-red { background-color: #EE1C25; color:#FFFFFF  !important; }
+#body > .container a.button-med { font-size: 2.8em; width: 6em; height: 1.4em; }
+
+#body > .container h3{}
+#body > .container a{ text-decoration: none; font-weight: bold; color: inherit;  }
+#body > .container > div { display: block;}
+
+#body > .container .balance {margin: .5em 0;}
+#body > .container .balance h3 { margin: 0; font-size: 1.2em;}
+#body > .container .balance p { margin: 0;, sans-serif; font-weight: bold;}
+
+#body > .container .totals {margin: 1em auto 3em; font-size: .6em; max-width: 23em; }
+#body > .container .totals p { margin: 0.2em 0; font-family: 'Alef', sans-serif; font-weight: bold; display: flex; justify-content: space-around; flex-wrap: wrap; }
+
+#body > .container .buttons {    margin: 2em auto 0; max-width: 25em; font-size: .8rem;  font-family: 'Alef', sans-serif;}
+#body > .container .buttons p { margin: 1.2em 0 2.5em; display: flex; justify-content: space-around; }
+
+#body > .container .form {margin: 0 auto; max-width: 10em; font-size: 1em;  font-family: 'Alef', sans-serif; display: flex; justify-content: space-between; flex-direction: column ;}
+#body > .container .form h3 { margin-bottom: 0; font-size: 1em;}
+#body > .container .form p { margin-top: 0; font-family: 'Alef', sans-serif; font-weight: bold; display: flex; justify-content: space-between; line-height: 1em; font-size: 0.8em}
+#body > .container .form p.smaller { font-size: .7em; text-align: right}
+#body > .container .form p.edit {border-bottom: 1px solid #32210F; font-size: 1.8em; line-height: 1rem; margin: 0;}
+#body > .container .form p.edit input {border: 0; text-align: center; width: 90%;  color: #32210F; font-weight: bold;}
+#body > .container .form a.remove { font-size: .8em; text-align: right; color: #EE1C25; font-weight: normal; line-height: 1em;}
+
+#body > .container > .title { color: #CB9B2D; background-color: #32210F; font-weight: bold; padding:0; margin: 0; font-size: 0.6em; vertical-align: middle}
+#body > .container > .title p {padding: 0.5rem;}
+
+
+#body > .container ul.table {font-size: 0.8em; font-weight: bold; font-family: 'Alef', sans-serif; margin: -0.7em 0 0;; padding: 0;}
+#body > .container ul.table.history {color: #CB9B2D;}
+
+#body > .container ul.nav {display: flex; justify-content: space-around; font-weight: bold; font-size: .8em; font-family: 'Alef', sans-serif; }
+#body > .container ul.nav li {padding: .2em .4em}
+#body > .container ul.nav .active { background-color: #32210F; color: #FFFFFF;}
+
+#body > .container ul.table li {margin: 0; display: flex; }
+#body > .container ul.table li.title {border-bottom: 3px solid #32210F; font-weight: bold; color: #32210F}
+#body > .container ul.table li span {width: 50%}
+#body > .container ul.table li span:first-child { border-left: 1px solid #32210F;  }
+
+#body > .container .budget { width: 80%; margin: 1em auto; max-width: 500px; }
+#body > .container .budget p { font-size: 1.5rem; font-weight: bold; margin: 0; padding: 0; text-align: right;}
+#body > .container .budget p.smaller { font-size: 1rem;}
+
+/*******************************************
+*    COLORS / STYLES
+********************************************/
+
+.green { color: #0A9444;}
+.red { color: #EE1C25;}

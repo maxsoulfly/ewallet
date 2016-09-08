@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>New Transition</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="inc/font-awesome/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Alef:400,700|Open+Sans:700|Rubik:400,700" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+    <header>
+        <div id="header">
+            <p><a href="" ><span class="fa fa-bars" aria-hidden="true"></span></a></p>
+            <p class="main-title">נוסחת ההתעשרות</p>
+            <p><a href="settings.html" ><span class="fa fa-cog" aria-hidden="true"></span></a></p>
+        </div>
+    </header>
+
+    <div id="body">
+        <div class="title">
+            <h1>הוצאה חדשה</h1>
+        </div>
+        <div class="container">
+            <form method="post" action="">
+                <div class="form">
+
+                    <p class="">
+                        <label for="from">העבר מ-</label>
+                        <select name="from" id="from">
+                            <option value="1">חשבון ראשי</option>
+                            <option value="2">חשבון עסקי</option>
+                            <option value="3">חשבון אמאזון</option>
+                        </select>
+                    </p>
+
+                    <p class="">
+                        <label for="to">העבר אל-</label>
+                        <select name="to" id="to">
+                            <option value="1">חשבון ראשי</option>
+                            <option value="2">חשבון עסקי</option>
+                            <option value="3">חשבון אמאזון</option>
+                        </select>
+                    </p>
+
+                    <p>
+                        <label for="amount">סכום</label>
+                        <input type="text" name="amount" id="amount">
+                    </p>
+
+                </div>
+
+                <div class="buttons">
+                    <p>
+                        <a href="javascript:history.back()" class="button bg-green">הוסף</a>
+                        <a href="javascript:history.back()" class="button bg-red">בטל</a>
+                    </p>
+            </div>
+            </form>
+
+        </div>
+    </div>
+
+</body>
+</html>

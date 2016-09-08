@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>New Income</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="inc/font-awesome/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Alef:400,700|Open+Sans:700|Rubik:400,700" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+    <header>
+        <div id="header">
+            <p><a href="" ><span class="fa fa-bars" aria-hidden="true"></span></a></p>
+            <p class="main-title">נוסחת ההתעשרות</p>
+            <p><a href="settings.html" ><span class="fa fa-cog" aria-hidden="true"></span></a></p>
+        </div>
+    </header>
+
+    <div id="body">
+        <div class="title">
+            <h1>הכנסה חדשה</h1>
+        </div>
+        <div class="container">
+            <form method="post" action="">
+                <div class="form">
+                    <p>
+                        <label for="account_name">שם החשבון:</label>
+                        <input type="text" name="account_name" id="account_name" value="חשבון ראשי">
+                    </p>
+
+                    <p>
+                        <label for="description">פירוט:</label>
+                        <input type="text" name="description" id="description" placeholder="טקסט לפירוט">
+                    </p>
+
+                    <p class="">
+                        <label for="source">מטבע:</label>
+                        <select name="source" id="source">
+                            <option value="USD">דולר</option>
+                            <option value="ILS">ש"ח</option>
+                            <option value="EUR">אירו</option>
+                            <option value="PND">ליט"ש</option>
+                        </select>
+                    </p>
+
+                    <p>
+                        <label for="balance">יתרה:</label>
+                        <input type="text" name="balance" id="balance" value="1,000,000">
+                    </p>
+                </div>
+
+                <div class="buttons">
+
+                    <p>
+                        <a href="javascript:history.back()" class="button">אשר</a>
+                        <a href="javascript:history.back()" class="button">בטל</a>
+                    </p>
+                    <p>
+                        <a href="javascript:history.back()" class="button-med bg-red">מחק חשבון</a>
+                    </p>
+            </div>
+            </form>
+
+        </div>
+    </div>
+
+</body>
+</html>

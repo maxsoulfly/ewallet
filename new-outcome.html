@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>New Outcome</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="inc/font-awesome/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Alef:400,700|Open+Sans:700|Rubik:400,700" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+    <header>
+        <div id="header">
+            <p><a href="" ><span class="fa fa-bars" aria-hidden="true"></span></a></p>
+            <p class="main-title">נוסחת ההתעשרות</p>
+            <p><a href="settings.html" ><span class="fa fa-cog" aria-hidden="true"></span></a></p>
+        </div>
+    </header>
+
+    <div id="body">
+        <div class="title">
+            <h1>הוצאה חדשה</h1>
+        </div>
+        <div class="container">
+            <form method="post" action="">
+                <div class="form">
+                    <p>
+                        <label for="date">תאריך</label>
+                        <input type="date" name="date" id="date" value="2016-08-18" readonly>
+                    </p>
+
+                    <p>
+                        <label for="time">שעה</label>
+                        <input type="time" name="time" id="time" value="19:32" readonly>
+                    </p>
+
+                    <p>
+                        <label for="amount">סכום</label>
+                        <input type="text" name="amount" id="amount">
+                    </p>
+
+
+                    <p class="smaller">
+                        <label for="payed">שולם באמצעות</label>
+                        <select name="payed" id="payed">
+                            <option value="1">מזומן</option>
+                            <option value="2">אשראי</option>
+                            <option value="3">צ'ק</option>
+                            <option value="4">דייקרט</option>
+                            <option value="5">Paypal</option>
+                        </select>
+                    </p>
+
+                    <p class="smaller">
+                        <label for="category">קטגוריה</label>
+                        <select name="category" id="category">
+                            <option value="1">קטגוריות 1</option>
+                            <option value="2">קטגוריות 1</option>
+                            <option value="3">קטגוריות 1</option>
+                            <option value="4">קטגוריות 1</option>
+                            <option value="5">קטגוריות 1</option>
+                        </select>
+                    </p>
+
+
+                    <p>
+                        <label for="details">פירוט</label>
+                        <input type="text" name="details" id="details">
+                    </p>
+                </div>
+
+                <div class="buttons">
+                    <p>
+                        <a href="main-account.html" class="button bg-green">הוסף</a>
+                        <a href="main-account.html" class="button bg-red">בטל</a>
+                    </p>
+            </div>
+            </form>
+
+        </div>
+    </div>
+
+</body>
+</html>
