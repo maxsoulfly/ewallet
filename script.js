@@ -3,24 +3,6 @@ moment.locale("he");
 
 //renderAccountsPage();
 
-// setLocalStorage();
-
-
-function setLocalStorage() {
-
-    if(localStorage.getItem("account")){
-
-    }
-    else {
-        // Accounts
-        var account = [];
-        account[0].name = "חשבון ראשי";
-        account[0].balance = 0;
-        console.log( account );
-        localStorage.setItem( 'account', account );
-        console.log( localStorage.getItem( 'account' ) );
-    }
-}
 
 $.urlParam = function(name){
     var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
@@ -38,9 +20,13 @@ $.urlParam = function(name){
 function accountsRender(type) {
     var accountsHtmlRender = "";
     for(var i = 0; i < accounts.length; i ++) {
-        if (accounts[i].type == type) {
+        if (accounts[i].type == "account" && accounts[i].type == type) {
+            accountsHtmlRender += '<p><a href="view_account.html?account_id=' + i + '">' + accounts[i].name + '</a> </p>';
+        }
+        else if (accounts[i].type == "savings" && accounts[i].type == type) {
             accountsHtmlRender += '<p><a href="savings-account.html?account_id=' + i + '">' + accounts[i].name + '</a> </p>';
         }
+
     }
     $("#accounts").html(accountsHtmlRender);
 }
@@ -76,7 +62,7 @@ function getAccountTransactions(transactions, account_id) {
     var accountTransactions = [];
 
     for (var i = 0; i < transactions.length; i++){
-        if (transactions[i].account_id == account_id) {
+        if (transactions[i].account_id == account_id || transactions[i].to_account_id == account_id ) {
             accountTransactions.push(transactions[i]);
         }
     }
@@ -236,7 +222,12 @@ function newTransactionPageRender () {
     $('#category').html(category);
     $('#from_account_id').html(optionDifferTextRender(account_id, accounts[account_id].name, ""));
     $('#to_account_id').html(accountOptionsHtml);
-    $('#back').attr("href", "view_account.html?account_id=" + account_id);
+
+
+    if (accounts[account_id].type == "account")
+        $('#back').attr("href", "view_account.html?account_id=" + account_id);
+    else if (accounts[account_id].type == "savings")
+        $('#back').attr("href", "savings-account.html?account_id=" + account_id);
 }
 
 function addATransaction() {
@@ -269,7 +260,10 @@ function renderHistoryPage() {
     var dateTitle = $('div.date p');
 
     // RENDER PAGE:
-    $('#back').attr("href", "view_account.html?account_id=" + account_id);
+    if (accounts[account_id].type == "account")
+        $('#back').attr("href", "view_account.html?account_id=" + account_id);
+    else if (accounts[account_id].type == "savings")
+        $('#back').attr("href", "savings-account.html?account_id=" + account_id);
 
     var links = $("ul.nav a");
     for (var i = 0; i < links.length; i++) {
@@ -305,41 +299,60 @@ function renderHistoryPage() {
 
 
     accountTransactions = getTransactions(account_id, displayParam);
-    transactionsListHtml = transactionsListRender(accountTransactions);
+    transactionsListHtml = transactionsListRender(accountTransactions, account_id);
     ulTable.html(ulTable.html() + transactionsListHtml);
 }
 // -------------  FUNCTIONS  -------------------- //
 function getTransactions(account_id, displayParam) {
     var transaction = [];
     for (var i = 0; i < transactions.length; i++) {
-        if (transactions[i].account_id == account_id ) {
-            if (displayParam.by == "all") {
-                if (displayParam.cashFlowType == "all" || transactions[i].type == displayParam.cashFlowType)
+
+        if (displayParam.by == "all") {
+           if (isTransactionAllowed(displayParam, transactions[i], account_id ))
+               transaction.push(transactions[i]);
+        }
+        else {
+            if (isDateBetween(displayParam.startDate, displayParam.endDate, transactions[i].date)) {
+                if (isTransactionAllowed(displayParam, transactions[i], account_id ))
                     transaction.push(transactions[i]);
-            }
-            else {
-                if (isDateBetween(displayParam.startDate, displayParam.endDate, transactions[i].date)) {
-                    if (displayParam.cashFlowType == "all" || transactions[i].type == displayParam.cashFlowType)
-                        transaction.push(transactions[i]);
-                }
             }
         }
     }
     return transaction;
 }
 
-function transactionsListRender(transactions) {
+function isTransactionAllowed(displayParam, transaction, account_id ) {
+    if (displayParam.cashFlowType == "all") {
+        if (transaction.account_id == account_id || transaction.to_account_id == account_id) {
+            return true;
+        }
+    }
+    else if(displayParam.cashFlowType == "income") {
+        if (transaction.account_id == account_id && transaction.type == "income" || transaction.to_account_id == account_id && transaction.type == "expense" ) {
+            return true;
+        }
+    }
+    else if(displayParam.cashFlowType == "expense") {
+        if (transaction.account_id == account_id && transaction.type == "expense" || transaction.to_account_id == account_id && transaction.type == "income" ){
+            return true;
+        }
+    }
+
+    return false;
+}
+
+function transactionsListRender(transactions, account_id) {
     var listHtml = "";
     for (var i = 0; i < transactions.length; i++) {
-        listHtml += listItemRender(transactions[i]);
+        listHtml += listItemRender(transactions[i], account_id);
     }
     return listHtml;
 }
 
-function listItemRender(transaction) {
+function listItemRender(transaction, account_id) {
     var li = '';
     li += '<li><span>' + transaction.category + '</span>';
-    if (transaction.type == "income") {
+    if (transaction.type == "income" && transaction.account_id == account_id || transaction.type == "expense" && transaction.to_account_id == account_id ) {
         li += '<span class="green">' + transaction.sum + '+</span>';
     } else {
         li += '<span class="red">' + transaction.sum + '-</span>';
@@ -401,8 +414,8 @@ function changeCashFlow(displayParam) {
 }
 
 function addCashFlowToUrl(displayParam, url) {
-    if (url.indexOf('cashFlowType') > -1) {
-        var indexOf = url.indexOf("cashFlowType");
+    if (url.indexOf('&cashFlowType') > -1) {
+        var indexOf = url.indexOf("&cashFlowType");
         url = url.substring(0,indexOf);
     }
     url += "&cashFlowType=" + displayParam.cashFlowType;
@@ -415,4 +428,30 @@ function arraySearch(arr,val) {
         if (arr[i] === val)
             return i;
     return false;
+}
+
+/*********************************************************
+ *      SAVINGS-ACCOUNT.HTML
+ *********************************************************/
+function savingsAccountRender() {
+
+    var account_id = $.urlParam('account_id');
+    var allTransactions = getAccountTransactions(transactions, account_id);
+    allTransactions.sort(function(a,b) {
+        return new Date(b.date).getTime() - new Date(a.date).getTime();
+    });
+    //var ulTable = $('ul.table');
+    var transactionListHtml = "";
+
+    for (var i = 0; i < allTransactions.length && i < 5; i++) {
+        transactionListHtml += '<li>';
+        transactionListHtml += '<span>' + allTransactions[i].date + '</span>';
+        if (allTransactions[i].account_id == account_id)
+            transactionListHtml += '<span class="red">' + allTransactions[i].sum + '-</span>';
+        else if (allTransactions[i].to_account_id == account_id)
+            transactionListHtml += '<span class="green">' + allTransactions[i].sum + '+</span>';
+        transactionListHtml += '</li>';
+    }
+    $('ul.table').html(transactionListHtml);
+
 }
