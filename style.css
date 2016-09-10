@@ -18,10 +18,14 @@ input[readonly] { border-bottom: 0; }
 
 select {
     font-size: 1.4rem;
-    width: 8rem;
+    width: 9rem;
     height: 2rem;
     background-color: #CB9B2D;
     color: #ffffff;
+}
+.new-transaction select {
+
+    width: 12rem;
 }
 
 ul, ol { list-style: none; margin: 0; padding: 0;}

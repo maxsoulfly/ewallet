@@ -11,57 +11,60 @@
 
 </head>
 <body>
-    <header>
-        <div id="header">
-            <p><a href="" ><span class="fa fa-bars" aria-hidden="true"></span></a></p>
-            <p class="main-title">נוסחת ההתעשרות</p>
-            <p><a href="settings.html" ><span class="fa fa-cog" aria-hidden="true"></span></a></p>
-        </div>
-    </header>
 
     <div id="body">
         <div class="title">
-            <h1>הוצאה חדשה</h1>
+            <h1>העברה חדשה</h1>
         </div>
         <div class="container">
             <form method="post" action="">
                 <div class="form">
 
-                    <p class="">
-                        <label for="from">העבר מ-</label>
-                        <select name="from" id="from">
+                    <input type="hidden" name="account_id" id="account_id" value="">
+                    <input type="hidden" name="type" id="type" value="">
+                    <input type="hidden" name="date" id="date" value="">
+                    <input type="hidden" name="time" id="time" value="">
+                    <input type="hidden" name="payment" id="payment" value="">
+                    <input type="hidden" name="category" id="category" value="">
+                    <p class="new-transaction">
+                        <label for="from_account_id">העבר מ-</label>
+                        <select name="from_account_id" id="from_account_id" disabled>
                             <option value="1">חשבון ראשי</option>
-                            <option value="2">חשבון עסקי</option>
-                            <option value="3">חשבון אמאזון</option>
                         </select>
                     </p>
 
-                    <p class="">
-                        <label for="to">העבר אל-</label>
-                        <select name="to" id="to">
+                    <p class="new-transaction">
+                        <label for="to_account_id">העבר אל-</label>
+                        <select name="to_account_id" id="to_account_id">
                             <option value="1">חשבון ראשי</option>
-                            <option value="2">חשבון עסקי</option>
-                            <option value="3">חשבון אמאזון</option>
                         </select>
                     </p>
 
                     <p>
                         <label for="amount">סכום</label>
-                        <input type="text" name="amount" id="amount">
+                        <input type="number" name="amount" id="amount">
                     </p>
-
                 </div>
 
                 <div class="buttons">
                     <p>
-                        <a href="javascript:history.back()" class="button bg-green">הוסף</a>
-                        <a href="javascript:history.back()" class="button bg-red">בטל</a>
+                        <a href="javascript:addATransaction()" class="button bg-green">הוסף</a>
+                        <a id="back" href="javascript:history.back()" class="button bg-red">בטל</a>
                     </p>
-            </div>
+                </div>
             </form>
 
         </div>
     </div>
 
+    <script src="jquery-3.1.0.js"></script>
+    <script src="moment.min.js"></script>
+    <script src="script.js"></script>
+    <script src="data.js"></script>
+    <script>
+
+        newTransactionPageRender ();
+
+    </script>
 </body>
 </html>

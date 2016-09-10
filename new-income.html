@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="he">
 <head>
     <meta charset="UTF-8">
     <title>New Income</title>
@@ -11,40 +11,36 @@
 
 </head>
 <body>
-    <header>
-        <div id="header">
-            <p><a href="" ><span class="fa fa-bars" aria-hidden="true"></span></a></p>
-            <p class="main-title">נוסחת ההתעשרות</p>
-            <p><a href="settings.html" ><span class="fa fa-cog" aria-hidden="true"></span></a></p>
-        </div>
-    </header>
-
     <div id="body">
         <div class="title">
             <h1>הכנסה חדשה</h1>
         </div>
         <div class="container">
-            <form method="post" action="">
+            <form id="newIncome" method="post" action="">
                 <div class="form">
+                    <input type="hidden" name="account_id" id="account_id" value="">
+                    <input type="hidden" name="type" id="type" value="">
+                    <input type="hidden" name="from_account_id" id="from_account_id" value="">
+                    <input type="hidden" name="to_account_id" id="to_account_id" value="">
                     <p>
                         <label for="date">תאריך</label>
-                        <input type="date" name="date" id="date" value="2016-08-18" readonly>
+                        <input type="date" name="date" id="date" value="" >
                     </p>
 
                     <p>
                         <label for="time">שעה</label>
-                        <input type="time" name="time" id="time" value="19:32" readonly>
+                        <input type="time" name="time" id="time" value="" >
                     </p>
 
                     <p>
                         <label for="amount">סכום</label>
-                        <input type="text" name="amount" id="amount">
+                        <input type="number" name="amount" id="amount">
                     </p>
 
 
                     <p class="smaller">
-                        <label for="received">התקבל באמצעות</label>
-                        <select name="received" id="received">
+                        <label for="payment">התקבל באמצעות</label>
+                        <select name="payment" id="payment">
                             <option value="1">מזומן</option>
                             <option value="2">אשראי</option>
                             <option value="3">צ'ק</option>
@@ -54,15 +50,16 @@
                     </p>
 
                     <p class="smaller">
-                        <label for="source">מקור הכנסה</label>
-                        <select name="source" id="source">
-                            <option value="1">מקור 1</option>
-                            <option value="2">מקור 2</option>
-                            <option value="3">מקור 3</option>
-                            <option value="4">מקור 4</option>
-                            <option value="5">מקור 5</option>
+                        <label for="category">מקור</label>
+                        <select name="category" id="category">
+                            <option value="1">קטגוריות 1</option>
+                            <option value="2">קטגוריות 1</option>
+                            <option value="3">קטגוריות 1</option>
+                            <option value="4">קטגוריות 1</option>
+                            <option value="5">קטגוריות 1</option>
                         </select>
                     </p>
+
 
 
                     <p>
@@ -73,14 +70,24 @@
 
                 <div class="buttons">
                     <p>
-                        <a href="javascript:history.back()" class="button bg-green">הוסף</a>
-                        <a href="javascript:history.back()" class="button bg-red">בטל</a>
+                        <a href="javascript:addTransaction()" class="button bg-green">הוסף</a>
+                        <a id="back" href="javascript:history.back()" class="button bg-red">בטל</a>
                     </p>
             </div>
             </form>
 
         </div>
     </div>
+
+    <script src="jquery-3.1.0.js"></script>
+    <script src="moment.min.js"></script>
+    <script src="script.js"></script>
+    <script src="data.js"></script>
+    <script>
+
+        newTransactionRender("income");
+
+    </script>
 
 </body>
 </html>

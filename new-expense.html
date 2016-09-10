@@ -11,13 +11,6 @@
 
 </head>
 <body>
-    <header>
-        <div id="header">
-            <p><a href="" ><span class="fa fa-bars" aria-hidden="true"></span></a></p>
-            <p class="main-title">נוסחת ההתעשרות</p>
-            <p><a href="settings.html" ><span class="fa fa-cog" aria-hidden="true"></span></a></p>
-        </div>
-    </header>
 
     <div id="body">
         <div class="title">
@@ -26,30 +19,34 @@
         <div class="container">
             <form method="post" action="">
                 <div class="form">
+                    <input type="hidden" name="account_id" id="account_id" value="">
+                    <input type="hidden" name="type" id="type" value="">
+                    <input type="hidden" name="from_account_id" id="from_account_id" value="">
+                    <input type="hidden" name="to_account_id" id="to_account_id" value="">
                     <p>
                         <label for="date">תאריך</label>
-                        <input type="date" name="date" id="date" value="2016-08-18" readonly>
+                        <input type="date" name="date" id="date" value="2016-08-18">
                     </p>
 
                     <p>
                         <label for="time">שעה</label>
-                        <input type="time" name="time" id="time" value="19:32" readonly>
+                        <input type="time" name="time" id="time" value="19:32">
                     </p>
 
                     <p>
                         <label for="amount">סכום</label>
-                        <input type="text" name="amount" id="amount">
+                        <input type="number" name="amount" id="amount">
                     </p>
 
 
                     <p class="smaller">
-                        <label for="payed">שולם באמצעות</label>
-                        <select name="payed" id="payed">
+                        <label for="payment">שולם באמצעות</label>
+                        <select name="payment" id="payment">
                             <option value="1">מזומן</option>
                             <option value="2">אשראי</option>
                             <option value="3">צ'ק</option>
                             <option value="4">דייקרט</option>
-                            <option value="5">Paypal</option>
+                            <option value="5">PayPal</option>
                         </select>
                     </p>
 
@@ -57,10 +54,10 @@
                         <label for="category">קטגוריה</label>
                         <select name="category" id="category">
                             <option value="1">קטגוריות 1</option>
-                            <option value="2">קטגוריות 1</option>
-                            <option value="3">קטגוריות 1</option>
-                            <option value="4">קטגוריות 1</option>
-                            <option value="5">קטגוריות 1</option>
+                            <option value="2">קטגוריות 2</option>
+                            <option value="3">קטגוריות 3</option>
+                            <option value="4">קטגוריות 4</option>
+                            <option value="5">קטגוריות 5</option>
                         </select>
                     </p>
 
@@ -73,14 +70,23 @@
 
                 <div class="buttons">
                     <p>
-                        <a href="main-account.html" class="button bg-green">הוסף</a>
-                        <a href="main-account.html" class="button bg-red">בטל</a>
+                        <a href="javascript:addTransaction()" class="button bg-green">הוסף</a>
+                        <a id="back" href="javascript:history.back()" class="button bg-red">בטל</a>
                     </p>
             </div>
             </form>
 
         </div>
     </div>
+    <script src="jquery-3.1.0.js"></script>
+    <script src="moment.min.js"></script>
+    <script src="script.js"></script>
+    <script src="data.js"></script>
+    <script>
+
+        newTransactionRender("expense");
+
+    </script>
 
 </body>
 </html>

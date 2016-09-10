@@ -11,13 +11,6 @@
 
 </head>
 <body>
-    <header>
-        <div id="header">
-            <p><a href="" ><span class="fa fa-bars" aria-hidden="true"></span></a></p>
-            <p class="main-title">נוסחת ההתעשרות</p>
-            <p><a href="settings.html" ><span class="fa fa-cog" aria-hidden="true"></span></a></p>
-        </div>
-    </header>
 
     <div id="body">
         <div class="title">
@@ -25,15 +18,15 @@
                 היסטוריית תנועות
             </h1>
 
-            <img src="hist_up_down.PNG" width="98" height="47">
+            <a href="javascript: changeCashFlow(displayParam);"><img src="hist_all.png" width="98" height="47"></a>
         </div>
         <div class="container">
 
             <ul class="nav">
-                <li><a href="">הכל</a> </li>
-                <li class="active"><a href="">שבועי</a> </li>
-                <li><a href="">חודשי</a> </li>
-                <li><a href="">שנתי</a> </li>
+                <li id="displayAll" class="active"><a href="history.html?displayBy=all">הכל</a> </li>
+                <li id="displayWeekly"><a href="history.html?displayBy=weekly">שבועי</a> </li>
+                <li id="displayMonthly"><a href="history.html?displayBy=monthly">חודשי</a> </li>
+                <li id="displayAnnually"><a href="history.html?displayBy=annually">שנתי</a> </li>
             </ul>
 
             <div class="date">
@@ -53,43 +46,31 @@
                     <span>קטגוריה</span>
                     <span>סכום</span>
                 </li>
-                <li>
-                    <span>משכורת</span>
-                    <span class="green">12,000+</span>
-                </li>
-                <li>
-                    <span>חסכונות</span>
-                    <span class="red">1,500-</span>
-                </li>
-                <li>
-                    <span>דלק</span>
-                    <span class="red">250-</span>
-                </li>
-                <li>
-                    <span>מזון</span>
-                    <span class="red">300-</span>
-                </li>
-                <li>
-                    <span>בגדים</span>
-                    <span class="red">750-</span>
-                </li>
-                <li>
-                    <span>עסק</span>
-                    <span class="green">1,000+</span>
-                </li>
-                <li>
-                    <span>ילדים</span>
-                    <span class="red">2,000-</span>
-                </li>
-                <li>
-                    <span>פנאי</span>
-                    <span class="red">100-</span>
-                </li>
             </ul>
 
 
+            <div class="buttons">
+                <p>
+                    <a id="back" href="javascript:history.back()" class="button">חזור</a>
+                </p>
+            </div>
         </div>
     </div>
+
+    <script src="jquery-3.1.0.js"></script>
+    <script src="moment.min.js"></script>
+    <script src="script.js"></script>
+    <script src="data.js"></script>
+    <script>
+        var displayParam = {
+            "by": $.urlParam('displayBy') != null ? $.urlParam('displayBy') : "all",
+            "startDate": "",
+            "endDate": "",
+            "cashFlowType": $.urlParam('cashFlowType') != null ? $.urlParam('cashFlowType') : "all"
+        };
+        renderHistoryPage();
+
+    </script>
 
 </body>
 </html>
