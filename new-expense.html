@@ -17,10 +17,10 @@
             <h1>הוצאה חדשה</h1>
         </div>
         <div class="container">
-            <form method="post" action="">
+            <form id="newIncome" method="post" action="">
                 <div class="form">
                     <input type="hidden" name="account_id" id="account_id" value="">
-                    <input type="hidden" name="type" id="type" value="">
+                    <input type="hidden" name="type" id="type" value="expense">
                     <input type="hidden" name="from_account_id" id="from_account_id" value="">
                     <input type="hidden" name="to_account_id" id="to_account_id" value="">
                     <p>
@@ -54,10 +54,10 @@
                         <label for="category">קטגוריה</label>
                         <select name="category" id="category">
                             <option value="1">קטגוריות 1</option>
-                            <option value="2">קטגוריות 2</option>
-                            <option value="3">קטגוריות 3</option>
-                            <option value="4">קטגוריות 4</option>
-                            <option value="5">קטגוריות 5</option>
+                            <option value="2">קטגוריות 1</option>
+                            <option value="3">קטגוריות 1</option>
+                            <option value="4">קטגוריות 1</option>
+                            <option value="5">קטגוריות 1</option>
                         </select>
                     </p>
 
@@ -80,8 +80,8 @@
     </div>
     <script src="jquery-3.1.0.js"></script>
     <script src="moment.min.js"></script>
-    <script src="script.js"></script>
     <script src="data.js"></script>
+    <script src="script.js"></script>
     <script>
 
         newTransactionRender("expense");

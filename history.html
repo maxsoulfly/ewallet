@@ -59,8 +59,8 @@
 
     <script src="jquery-3.1.0.js"></script>
     <script src="moment.min.js"></script>
-    <script src="script.js"></script>
     <script src="data.js"></script>
+    <script src="script.js"></script>
     <script>
         var displayParam = {
             "by": $.urlParam('displayBy') != null ? $.urlParam('displayBy') : "all",
@@ -68,7 +68,6 @@
             "endDate": "",
             "cashFlowType": $.urlParam('cashFlowType') != null ? $.urlParam('cashFlowType') : "all"
         };
-
         renderHistoryPage();
 
     </script>

@@ -3,6 +3,7 @@ moment.locale("he");
 
 //renderAccountsPage();
 
+setLocalStorage();
 
 $.urlParam = function(name){
     var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
@@ -14,17 +15,22 @@ $.urlParam = function(name){
     }
 };
 
+// Save to Local Storage
+function saveToStorage () {
+    localStorage.setItem( 'ewallet',  JSON.stringify(ewallet) );
+}
+
 /***************************************************
  ACCOUNTS.HTML FUNCTIONS
  ***************************************************/
 function accountsRender(type) {
     var accountsHtmlRender = "";
-    for(var i = 0; i < accounts.length; i ++) {
-        if (accounts[i].type == "account" && accounts[i].type == type) {
-            accountsHtmlRender += '<p><a href="view_account.html?account_id=' + i + '">' + accounts[i].name + '</a> </p>';
+    for(var i = 0; i < ewallet.accounts.length; i ++) {
+        if (ewallet.accounts[i].type == "account" && ewallet.accounts[i].type == type) {
+            accountsHtmlRender += '<p><a href="view_account.html?account_id=' + i + '">' + ewallet.accounts[i].name + '</a> </p>';
         }
-        else if (accounts[i].type == "savings" && accounts[i].type == type) {
-            accountsHtmlRender += '<p><a href="savings-account.html?account_id=' + i + '">' + accounts[i].name + '</a> </p>';
+        else if (ewallet.accounts[i].type == "savings" && ewallet.accounts[i].type == type) {
+            accountsHtmlRender += '<p><a href="savings-account.html?account_id=' + i + '">' + ewallet.accounts[i].name + '</a> </p>';
         }
 
     }
@@ -37,15 +43,16 @@ function accountsRender(type) {
 ***************************************************/
 function viewAccountRender() {
     var account_id = $.urlParam('account_id');
-    var account = accounts[account_id];
-    var allTransactions = getAccountTransactions(transactions, account_id);
+    var account = ewallet.accounts[account_id];
+    var allTransactions = getAccountTransactions(ewallet.transactions, account_id);
+
     var sum = calcBalanceCurMonth(allTransactions);
     var income = (sum.income > 0 ? sum.income.toLocaleString() + "+" : sum.income.toLocaleString());
     var expense = (sum.expense > 0 ? sum.expense.toLocaleString() + "-" : sum.expense.toLocaleString());
 
     // SET ACCOUNT VALUES
     $(".balance").find("p").html(account.balance.toLocaleString());
-    $(".title").find("h1").html(accounts[account_id].name);
+    $(".title").find("h1").html(account.name);
     $("#income").html(income);
     $("#expense").html(expense);
 
@@ -64,12 +71,17 @@ function getAccountTransactions(transactions, account_id) {
     for (var i = 0; i < transactions.length; i++){
         if (transactions[i].account_id == account_id || transactions[i].to_account_id == account_id ) {
             accountTransactions.push(transactions[i]);
+            console.log(transactions[i].category + " - " + transactions[i].details + " ["+transactions[i].type+"]:" + transactions[i].sum);
         }
     }
     return accountTransactions;
 }
 
 function makeDate(date) {
+    // formats the date to dd/mm/yyyy
+    if (!(date instanceof Date)) {
+        date = new Date(date);
+    }
     var finalDate = "";
     finalDate += (date.getDate() < 10 ? "0" + date.getDate() : date.getDate());
     finalDate += "/";
@@ -100,9 +112,10 @@ function calcBalanceCurMonth(transactions) {
     for (var i = 0; i < transactions.length; i++){
 
         // more info: http://momentjs.com/
-        day = moment(transactions[i].date, "DD/MM/YYYY");
+        day = moment(transactions[i].date);
         if (day.format('L').substring(3) == thisMonth) {
-            sum[transactions[i].type] += transactions[i].sum;
+            sum[transactions[i].type] += parseFloat(transactions[i].sum);
+            console.log("calculating: " + transactions[i].type + ": " + parseFloat(transactions[i].sum) + "("+sum[transactions[i].type]+")");
         }
     }
 
@@ -118,7 +131,7 @@ function newTransactionRender(type) {
     var account_id = $.urlParam('account_id');
     var now = new Date();
     var day = addZero(now.getDate());
-    var month = addZero(now.getMonth());
+    var month = addZero(now.getMonth()+1); // getMonth() gives you 0-11, so I add 1 to make a real month
     var today = now.getFullYear() + "-" + (month) + "-" + (day);
     var time = addZero(now.getHours()) + ":" + addZero(now.getMinutes());
     var paymentTypesHtml = paymentTypesSelectRender();
@@ -135,9 +148,12 @@ function newTransactionRender(type) {
 }
 
 function addTransaction() {
+    var transactions = ewallet.transactions;
+    var accounts = ewallet.accounts;
     var form = $("#newIncome");
+    var account_id = form.find("input#account_id").val();
     var transaction = {
-        "account_id" : form.find("input#account_id").val(),
+        "account_id" : account_id,
         "type": form.find("input#type").val(),
         "date": form.find("input#date").val(),
         "time": form.find("input#time").val(),
@@ -149,39 +165,53 @@ function addTransaction() {
         "to_account_id": form.find("input#to_account_id").val()
     };
 
+    if (transaction.type == "income") {
+        accounts[transaction.account_id].balance = accounts[account_id].balance + parseFloat(transaction.sum);
+
+    }
+    else if (transaction.type == "expense") {
+        accounts[transaction.account_id].balance = accounts[account_id].balance - parseFloat(transaction.sum);
+    }
+
     transactions.push(transaction);
+    saveToStorage ();
+
     history.back();
 }
 
-
+// formats a month / day to have "0" in the beginning
 function addZero(num) {
     return ("0" + num).slice(-2);
 }
 
+// returns a string with payments within OPTION TAGS
 function paymentTypesSelectRender() {
     var paymentTypesHtml = "";
-    for (var i=0; i<paymentTypes.length; i++) {
-        paymentTypesHtml += optionRender(paymentTypes[i].name, "");
+    for (var i=0; i<ewallet.paymentTypes.length; i++) {
+        paymentTypesHtml += optionRender(ewallet.paymentTypes[i].name, "");
     }
     return paymentTypesHtml;
 }
 
-
+// returns a string with categories within OPTION TAGS
 function categoriesRender(type) {
     var categoriesHtml = "";
 
-    for (var i=0; i<paymentTypes.length; i++) {
-        if (categories[i].type==type) {
-            categoriesHtml += optionRender(categories[i].name, "");
+    for (var i=0; i<ewallet.paymentTypes.length; i++) {
+        if (ewallet.categories[i].type==type) {
+            categoriesHtml += optionRender(ewallet.categories[i].name, "");
         }
     }
     return categoriesHtml;
 }
 
+// return a string with <option> TAG
 function optionRender(value, selected) {
     return optionDifferTextRender(value, value, selected);
 }
 
+// optionDifferTextRender receives value, text & selected
+// returns a string with rendered <option> TAG
 function optionDifferTextRender(value, text, selected) {
     var option = '<option value="'+value+'"';
     if (selected==value) {
@@ -196,11 +226,12 @@ function optionDifferTextRender(value, text, selected) {
  ***************************************************/
 
 function newTransactionPageRender () {
+    var accounts = ewallet.accounts;
     var account_id = $.urlParam('account_id');
     var accountOptionsHtml = "";
     var now = new Date();
     var day = addZero(now.getDate());
-    var month = addZero(now.getMonth());
+    var month = addZero(now.getMonth()+1);
     var today = now.getFullYear() + "-" + (month) + "-" + (day);
     var time = addZero(now.getHours()) + ":" + addZero(now.getMinutes());
     var category = "חסכונות";
@@ -218,8 +249,8 @@ function newTransactionPageRender () {
     $('#type').val(type);
     $('#date').val(today);
     $('#time').val(time);
-    $('#payment').html(payment);
-    $('#category').html(category);
+    $('#payment').val(payment);
+    $('#category').val(category);
     $('#from_account_id').html(optionDifferTextRender(account_id, accounts[account_id].name, ""));
     $('#to_account_id').html(accountOptionsHtml);
 
@@ -231,9 +262,13 @@ function newTransactionPageRender () {
 }
 
 function addATransaction() {
+    var transactions = ewallet.transactions;
+    var accounts = ewallet.accounts;
     var form = $("#newIncome");
+    var account_id = form.find("input#account_id").val();
+    var to_account_id = form.find("select#to_account_id option:selected").val();
     var transaction = {
-        "account_id" : form.find("input#account_id").val(),
+        "account_id" : account_id,
         "type": form.find("input#type").val(),
         "date": form.find("input#date").val(),
         "time": form.find("input#time").val(),
@@ -242,10 +277,20 @@ function addATransaction() {
         "payment": form.find("input#payment").val(),
         "category": form.find("input#category").val(),
         "from_account_id": form.find("input#from_account_id").val(),
-        "to_account_id": form.find("input#to_account_id").val()
+        "to_account_id": to_account_id
     };
+    // subtract sum from current account balance
+    accounts[account_id].balance = accounts[account_id].balance - parseFloat(transaction.sum);
+
+
+    // add sum to chosen account balance
+    accounts[to_account_id].balance = accounts[to_account_id].balance + parseFloat(transaction.sum);
+
 
     transactions.push(transaction);
+    saveToStorage ();
+
+
     history.back();
 }
 
@@ -254,11 +299,13 @@ function addATransaction() {
  ********************************************************/
 
 function renderHistoryPage() {
+
+
     var account_id = $.urlParam('account_id');
     var accountTransactions, transactionsListHtml;
     var ulTable = $('ul.history.table');
     var dateTitle = $('div.date p');
-
+    var accounts = ewallet.accounts;
     // RENDER PAGE:
     if (accounts[account_id].type == "account")
         $('#back').attr("href", "view_account.html?account_id=" + account_id);
@@ -304,21 +351,22 @@ function renderHistoryPage() {
 }
 // -------------  FUNCTIONS  -------------------- //
 function getTransactions(account_id, displayParam) {
-    var transaction = [];
+    var transactionsFiltered = [];
+    var transactions = ewallet.transactions;
     for (var i = 0; i < transactions.length; i++) {
 
         if (displayParam.by == "all") {
            if (isTransactionAllowed(displayParam, transactions[i], account_id ))
-               transaction.push(transactions[i]);
+               transactionsFiltered.push(transactions[i]);
         }
         else {
-            if (isDateBetween(displayParam.startDate, displayParam.endDate, transactions[i].date)) {
+            if (isDateBetween(displayParam.startDate, displayParam.endDate, ewallet.transactions[i].date)) {
                 if (isTransactionAllowed(displayParam, transactions[i], account_id ))
-                    transaction.push(transactions[i]);
+                    transactionsFiltered.push(transactions[i]);
             }
         }
     }
-    return transaction;
+    return transactionsFiltered;
 }
 
 function isTransactionAllowed(displayParam, transaction, account_id ) {
@@ -391,6 +439,7 @@ function getStartEnd(displayParam) {
 
 function isDateBetween(dateFrom, dateTo, dateCheck) {
 
+    dateCheck = makeDate(dateCheck);
     var d1 = dateFrom.split("/");
     var d2 = dateTo.split("/");
     var c = dateCheck.split("/");
@@ -404,6 +453,7 @@ function isDateBetween(dateFrom, dateTo, dateCheck) {
 
 function changeCashFlow(displayParam) {
     var currentUrl = window.location.href;
+    var cashFlowTypes = ewallet.cashFlowTypes;
     var i = arraySearch(cashFlowTypes, displayParam.cashFlowType);
     var currCashFlowType = displayParam.cashFlowType;
     i++;

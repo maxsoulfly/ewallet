@@ -18,7 +18,7 @@ input[readonly] { border-bottom: 0; }
 
 select {
     font-size: 1.4rem;
-    width: 9rem;
+    width: 10rem;
     height: 2rem;
     background-color: #CB9B2D;
     color: #ffffff;
