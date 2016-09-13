@@ -13,16 +13,15 @@
 <body>
     <div id="body">
         <div class="title">
-            <h1>עריכת חשבון</h1>
+            <h1>הוספת חשבון</h1>
         </div>
         <div class="container">
             <form method="post" action="" id="accountEdit">
                 <div class="form">
-                    <input type="hidden" name="account_id" id="account_id" value="">
                     <input type="hidden" name="type" id="type" value="">
                     <p>
                         <label for="account_name">שם החשבון:</label>
-                        <input type="text" name="account_name" id="account_name" value="חשבון ראשי">
+                        <input type="text" name="account_name" id="account_name" placeholder="שם חשבון">
                     </p>
 
                     <p>
@@ -42,18 +41,15 @@
 
                     <p>
                         <label for="balance">יתרה:</label>
-                        <input type="number" name="balance" id="balance" value="">
+                        <input type="number" name="balance" id="balance" value="0">
                     </p>
                 </div>
 
                 <div class="buttons">
 
                     <p>
-                        <a href="javascript:updateAccount()" class="button">אשר</a>
-                        <a href="javascript:history.back()" class="button">בטל</a>
-                    </p>
-                    <p>
-                        <a href="javascript:deleteAccount()" class="button-med bg-red">מחק חשבון</a>
+                        <a href="javascript:addAccount()" class="button">הוסף</a>
+                        <a href="javascript:history.back()" class="button">חזור</a>
                     </p>
             </div>
             </form>
@@ -68,7 +64,8 @@
     <script>
 
         // Render Page Values
-        accountEditPageRender();
+        newAccountPageRender();
+
 
     </script>
 </body>

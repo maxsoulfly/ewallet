@@ -1,8 +1,6 @@
 
 moment.locale("he");
 
-//renderAccountsPage();
-
 setLocalStorage();
 
 $.urlParam = function(name){
@@ -25,12 +23,17 @@ function saveToStorage () {
  ***************************************************/
 function accountsRender(type) {
     var accountsHtmlRender = "";
-    for(var i = 0; i < ewallet.accounts.length; i ++) {
-        if (ewallet.accounts[i].type == "account" && ewallet.accounts[i].type == type) {
-            accountsHtmlRender += '<p><a href="view_account.html?account_id=' + i + '">' + ewallet.accounts[i].name + '</a> </p>';
+    var accounts = ewallet.accounts;
+    for(var i = 0; i < accounts.length; i ++) {
+        if (accounts[i].type == "account" && accounts[i].type == type) {
+            accountsHtmlRender += '<p><a href="view_account.html?account_id=' + i + '">' + accounts[i].name + '</a> </p>';
         }
-        else if (ewallet.accounts[i].type == "savings" && ewallet.accounts[i].type == type) {
-            accountsHtmlRender += '<p><a href="savings-account.html?account_id=' + i + '">' + ewallet.accounts[i].name + '</a> </p>';
+        else if (accounts[i].type == "savings" && accounts[i].type == type) {
+            accountsHtmlRender += '<p><a href="savings-account.html?account_id=' + i + '">' + accounts[i].name + '</a> </p>';
+        }
+        else if (accounts[i].type == "account" &&  accounts[i].type == type.substring(0, 7)
+        || accounts[i].type == "savings" &&  accounts[i].type == type.substring(0, 7)) {
+            accountsHtmlRender += '<p><a href="account-edit.html?account_id=' + i + '">' + accounts[i].name + '</a> </p>';
         }
 
     }
@@ -486,7 +489,7 @@ function arraySearch(arr,val) {
 function savingsAccountRender() {
 
     var account_id = $.urlParam('account_id');
-    var allTransactions = getAccountTransactions(transactions, account_id);
+    var allTransactions = getAccountTransactions(ewallet.transactions, account_id);
     allTransactions.sort(function(a,b) {
         return new Date(b.date).getTime() - new Date(a.date).getTime();
     });
@@ -495,7 +498,7 @@ function savingsAccountRender() {
 
     for (var i = 0; i < allTransactions.length && i < 5; i++) {
         transactionListHtml += '<li>';
-        transactionListHtml += '<span>' + allTransactions[i].date + '</span>';
+        transactionListHtml += '<span>' + makeDate(allTransactions[i].date) + '</span>';
         if (allTransactions[i].account_id == account_id)
             transactionListHtml += '<span class="red">' + allTransactions[i].sum + '-</span>';
         else if (allTransactions[i].to_account_id == account_id)
@@ -504,4 +507,101 @@ function savingsAccountRender() {
     }
     $('ul.table').html(transactionListHtml);
 
+}
+
+
+
+/*********************************************************
+ *     ACCOUNT-EDIT.HTML
+ *********************************************************/
+
+// Render ACCOUNT-EDIT.HTML Page Values
+function accountEditPageRender() {
+    var account_id = $.urlParam('account_id');
+    var account = ewallet.accounts[account_id];
+
+    // Set Values
+    $("#account_id").val(account_id);
+    $("#account_name").val(account.name);
+    $("#type").val(account.type);
+    $("#description").val(account.description);
+    $("#balance").val(account.balance);
+    // Populate Currencies
+    $("#currency").html(currenciesListRender(account.currency));
+}
+
+function updateAccount() {
+
+    var form = $("#accountEdit");
+    var account_id = form.find("input#account_id").val();
+
+    // save new values
+    ewallet.accounts[account_id] = {
+        "name": form.find("input#account_name").val(),
+        "type": form.find("input#type").val(),
+        "description": form.find("input#description").val(),
+        "currency": form.find("select#currency option:selected").val(),
+        "balance": form.find("input#balance").val(),
+    };
+
+    saveToStorage ();
+
+    history.back();
+}
+
+function deleteAccount() {
+
+    var form = $("#accountEdit");
+    var account_id = form.find("input#account_id").val();
+
+    ewallet.accounts.splice(account_id, 1);
+
+    saveToStorage();
+    history.back();
+
+}
+
+// Returns html text with list of <option> TAGS
+function currenciesListRender(selected) {
+    var currencies = ewallet.currencies;
+    var selectHtml = "";
+
+    for (var i = 0; i < currencies.length; i++) {
+        selectHtml += optionDifferTextRender(currencies[i].name, currencies[i].display, selected);
+    }
+
+    return selectHtml;
+}
+
+
+/*********************************************************
+ *     NEW-ACCOUNT.HTML
+ *********************************************************/
+
+// Render ACCOUNT-EDIT.HTML Page Values
+function newAccountPageRender() {
+    var type = $.urlParam('type');
+
+    // Set Values
+    $("#type").val(type);
+    // Populate Currencies
+    $("#currency").html(currenciesListRender(""));
+}
+
+function addAccount() {
+
+    var form = $("#accountEdit");
+    // save new values
+    var newAccount = {
+        "name": form.find("input#account_name").val(),
+        "type": form.find("input#type").val(),
+        "description": form.find("input#description").val(),
+        "currency": form.find("select#currency option:selected").val(),
+        "balance": form.find("input#balance").val(),
+    };
+    ewallet.accounts.push(newAccount);
+
+    saveToStorage ();
+
+    history.back();
 }

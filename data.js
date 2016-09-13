@@ -15,18 +15,24 @@ function setLocalStorage() {
                 {
                     "name": "חשבון ראשי",
                     "type": "account",
+                    "description": "חשבון ראשי",
+                    "currency":"ILS",
                     "balance": 0
                 },
 
                 {
                     "name": "חשבון צמיחה",
                     "type": "savings",
+                    "description": "חשבון להשקעות",
+                    "currency":"ILS",
                     "balance": 0
                 },
 
                 {
                     "name": "חשבון לייפסטייל",
                     "type": "savings",
+                    "description": "חשבון לפאן",
+                    "currency":"ILS",
                     "balance": 0
                 }
             ],
@@ -85,7 +91,25 @@ function setLocalStorage() {
                 }
             ],
             transactions:[],
-            cashFlowTypes:["income", "expense", "all"]
+            cashFlowTypes:["income", "expense", "all"],
+            currencies: [
+                {
+                    "name": "USD",
+                    "display": 'דולר'
+                },
+                {
+                    "name": "ILS",
+                    "display": 'ש"ח'
+                },
+                {
+                    "name": "EUR",
+                    "display": 'אירו'
+                },
+                {
+                    "name": "PND",
+                    "display": 'ליט"ש'
+                },
+            ]
         };
         localStorage.setItem( 'ewallet',  JSON.stringify(ewallet) );
     }
