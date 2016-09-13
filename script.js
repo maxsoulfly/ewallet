@@ -56,6 +56,7 @@ function viewAccountRender() {
     // SET ACCOUNT VALUES
     $(".balance").find("p").html(account.balance.toLocaleString());
     $(".title").find("h1").html(account.name);
+    $("head title").html(account.name);
     $("#income").html(income);
     $("#expense").html(expense);
 
@@ -623,6 +624,7 @@ function categoriesEditRender() {
     }
 
     $('.form').html( categoriesHtml);
+    $('head title').html(title[type]);
 }
 
 
