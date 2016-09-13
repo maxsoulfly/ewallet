@@ -578,7 +578,7 @@ function newAccountPageRender() {
     // Set Values
     $("#type").val(type);
     // Populate Currencies
-    $("#currency").html(currenciesListRender(""));
+    $("#currency").html(currenciesListRender("ILS"));
 }
 
 function addAccount() {

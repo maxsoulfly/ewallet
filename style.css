@@ -15,7 +15,13 @@ input {
     color: #CB9B2D
 }
 input[readonly] { border-bottom: 0; }
-
+.form .new-transaction input#from_account_id {
+    font-size: 1.4rem !important;
+    background-color: #CB9B2D !important;
+    color: #ffffff !important;
+    width: 12rem !important;
+    height: 2rem !important;
+}
 select {
     font-size: 1.4rem;
     width: 10rem;

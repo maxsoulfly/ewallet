@@ -39,35 +39,43 @@ function setLocalStorage() {
             categories:[
                 {
                     "name": "משכורת",
-                    "type": "income"
+                    "type": "income",
+                    "subcategories": []
                 },
                 {
                     "name": "חסכונות",
-                    "type": "expense"
+                    "type": "expense",
+                    "subcategories": []
                 },
                 {
                     "name": "דלק",
-                    "type": "expense"
+                    "type": "expense",
+                    "subcategories": []
                 },
                 {
                     "name": "מזון",
-                    "type": "expense"
+                    "type": "expense",
+                    "subcategories": []
                 },
                 {
                     "name": "בגדים",
-                    "type": "expense"
+                    "type": "expense",
+                    "subcategories": []
                 },
                 {
                     "name": "עסק",
-                    "type": "income"
+                    "type": "income",
+                    "subcategories": []
                 },
                 {
                     "name": "ילדים",
-                    "type": "expense"
+                    "type": "expense",
+                    "subcategories": []
                 },
                 {
                     "name": "פנאי",
-                    "type": "expense"
+                    "type": "expense",
+                    "subcategories": []
                 },
 
                 {
@@ -113,7 +121,7 @@ function setLocalStorage() {
                 {
                     "name": "PND",
                     "display": 'ליט"ש'
-                },
+                }
             ]
         };
         localStorage.setItem( 'ewallet',  JSON.stringify(ewallet) );
