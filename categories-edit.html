@@ -11,45 +11,21 @@
 
 </head>
 <body>
-    <header>
-        <div id="header">
-            <p><a href="" ><span class="fa fa-bars" aria-hidden="true"></span></a></p>
-            <p class="main-title">נוסחת ההתעשרות</p>
-            <p><a href="settings.html" ><span class="fa fa-cog" aria-hidden="true"></span></a></p>
-        </div>
-    </header>
-
     <div id="body">
         <div class="title">
             <h1>הגדרת קטגוריות</h1>
         </div>
         <div class="container">
             <div class="form">
-                <p class="edit">
-                    <input type="text" id="category-1" name="payment" value="קטגוריות 1" title="">
-                    <a class="remove" href="#">x</a>
-                </p>
-
-                <p class="edit">
-                    <input type="text" id="category-2" name="payment" value="קטגוריות 2" title="">
-                    <a href="#" class="remove">x</a>
-                </p>
-
-                <p class="edit">
-                    <input type="text" id="category-3" name="payment" value="קטגוריות 3" title="">
-                    <a href="#" class="remove">x</a>
-                </p>
-
-                <p class="edit">
-                    <input type="text" id="category-4" name="payment" value="קטגוריות 4" title="">
-                    <a href="#" class="remove">x</a>
-                </p>
 
             </div>
 
             <div class="buttons">
                 <p>
-                    <a href="" class="button-med">הוסף אמצעי</a>
+                    <a href="javaScript: addCategoryToList(type)" class="button-med" id="addNew">הוסף קטגוריה</a>
+                </p>
+                <p>
+                    <a href="settings.html" class="button">חזרה</a>
                 </p>
             </div>
 
@@ -59,5 +35,13 @@
 
     </div>
 
+    <script src="jquery-3.1.0.js"></script>
+    <script src="moment.min.js"></script>
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+    <script>
+        var type = $.urlParam('type');
+        categoriesEditRender();
+    </script>
 </body>
 </html>

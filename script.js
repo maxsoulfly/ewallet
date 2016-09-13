@@ -137,7 +137,7 @@ function newTransactionRender(type) {
     var month = addZero(now.getMonth()+1); // getMonth() gives you 0-11, so I add 1 to make a real month
     var today = now.getFullYear() + "-" + (month) + "-" + (day);
     var time = addZero(now.getHours()) + ":" + addZero(now.getMinutes());
-    var paymentTypesHtml = paymentTypesSelectRender();
+    var paymentTypesHtml = categoriesRender("payment");
     var categoriesHtml = categoriesRender(type);
 
     // SET VALUES
@@ -187,20 +187,12 @@ function addZero(num) {
     return ("0" + num).slice(-2);
 }
 
-// returns a string with payments within OPTION TAGS
-function paymentTypesSelectRender() {
-    var paymentTypesHtml = "";
-    for (var i=0; i<ewallet.paymentTypes.length; i++) {
-        paymentTypesHtml += optionRender(ewallet.paymentTypes[i].name, "");
-    }
-    return paymentTypesHtml;
-}
 
 // returns a string with categories within OPTION TAGS
 function categoriesRender(type) {
     var categoriesHtml = "";
 
-    for (var i=0; i<ewallet.paymentTypes.length; i++) {
+    for (var i=0; i<ewallet.categories.length; i++) {
         if (ewallet.categories[i].type==type) {
             categoriesHtml += optionRender(ewallet.categories[i].name, "");
         }
@@ -604,4 +596,77 @@ function addAccount() {
     saveToStorage ();
 
     history.back();
+}
+
+
+/*******************************************
+ *  CATEGORY-EDIT.HTML
+ ******************************************/
+// populate categories
+function categoriesEditRender() {
+
+    var categories = ewallet.categories;
+    var categoriesHtml = "";
+    var title = {
+        "income" : "הגדרת מקורות הכנסה",
+        "expense": "הגדרת קטגוריות",
+        "payment": "הגדרת אמצעי תשלום"
+    };
+
+    $('.title h1').text(title[type]);
+
+    // render all
+    for (var i = 0; i < categories.length; i++) {
+        if (categories[i].type == type) {
+            categoriesHtml += categoryHtml(categories[i], i);
+        }
+    }
+
+    $('.form').html( categoriesHtml);
+}
+
+
+// one category html render
+function categoryHtml(category, i) {
+    var html = "";
+
+    html += '<p id="p-'+i+'" class="edit">';
+    html += '<input type="hidden" id="type-'+i+'" value="' + category.type + '">';
+    html += '<input type="text" id="category-' + i + '" value="' + category.name + '" title="" onkeyup="updateCategory(' + i + ', ewallet.categories[' + i + '])">';
+    html += '<a href="javaScript: deleteCategory(' + i + ')" class="remove">x</a>';
+    html += '</p>';
+
+    return html;
+}
+
+function addCategoryToList(type) {
+    var categories = ewallet.categories;
+    var text = {
+        "income" : "מקור הכנסה חדש",
+        "expense": "קטגוריה חדשה",
+        "payment": "אמצעי תשלום"
+    };
+    var form =  $('.form');
+    var newCategory = {"name":text[type],"type":type};
+    categories.splice(categories.length, 1 , newCategory);
+    saveToStorage();
+
+    ewallet = JSON.parse(localStorage.getItem('ewallet'));
+    //alert(ewallet.categories.length);
+
+    form.html(categoriesEditRender(type));
+}
+
+function updateCategory(i, category) {
+    category.name = $('.form').find("#category-"+i).val();
+    saveToStorage();
+}
+
+
+function deleteCategory(i) {
+    $('.form').find("#p-"+i).hide(500);
+    ewallet.categories.splice(i,1);
+    saveToStorage();
+    ewallet = JSON.parse(localStorage.getItem('ewallet'));
+    //alert(ewallet.categories.length);
 }

@@ -36,26 +36,6 @@ function setLocalStorage() {
                     "balance": 0
                 }
             ],
-            paymentTypes:[
-                {
-                    "name": "מזומן"
-                },
-                {
-                    "name": "אשראי"
-                },
-                {
-                    "name": "העברה בנקאית"
-                },
-                {
-                    "name": "צ'ק"
-                },
-                {
-                    "name": "דיירקט"
-                },
-                {
-                    "name": "PayPal"
-                }
-            ],
             categories:[
                 {
                     "name": "משכורת",
@@ -88,6 +68,31 @@ function setLocalStorage() {
                 {
                     "name": "פנאי",
                     "type": "expense"
+                },
+
+                {
+                    "name": "מזומן",
+                    "type": "payment"
+                },
+                {
+                    "name": "אשראי",
+                    "type": "payment"
+                },
+                {
+                    "name": "העברה בנקאית",
+                    "type": "payment"
+                },
+                {
+                    "name": "צ'ק",
+                    "type": "payment"
+                },
+                {
+                    "name": "דיירקט",
+                    "type": "payment"
+                },
+                {
+                    "name": "PayPal",
+                    "type": "payment"
                 }
             ],
             transactions:[],
