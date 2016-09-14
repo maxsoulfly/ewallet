@@ -88,6 +88,18 @@ pre {
 	}
 }
 
+.green > span {
+	background-color: #adff00;
+	background-image: -moz-linear-gradient(top, #adff00, #8cd200);
+	background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0, #adff00),color-stop(1, #8cd200));
+	background-image: -webkit-linear-gradient(#adff00, #8cd200);
+}
+.yellow > span {
+	background-color: #fffe00;
+	background-image: -moz-linear-gradient(top, #fffe00, #ffd926);
+	background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0, #fffe00),color-stop(1, #ffd926));
+	background-image: -webkit-linear-gradient(#fffe00, #ffd926);
+}
 .orange > span {
 	background-color: #f1a165;
 	background-image: -moz-linear-gradient(top, #f1a165, #f36d0a);

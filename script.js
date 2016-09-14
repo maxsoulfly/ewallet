@@ -190,15 +190,25 @@ function addZero(num) {
 
 
 // returns a string with categories within OPTION TAGS
-function categoriesRender(type) {
+function categoriesRender(type, selected) {
     var categoriesHtml = "";
 
     for (var i=0; i<ewallet.categories.length; i++) {
         if (ewallet.categories[i].type==type) {
-            categoriesHtml += optionRender(ewallet.categories[i].name, "");
+            categoriesHtml += optionRender(ewallet.categories[i].name, selected);
         }
     }
     return categoriesHtml;
+}
+
+// returns a string with timeFrame within OPTION TAGS
+function timeFrameRender(selected) {
+    var timeFrameHtml = "";
+
+    for (var i=0; i<ewallet.timeFrame.length; i++) {
+        timeFrameHtml += optionDifferTextRender(ewallet.timeFrame[i].name, ewallet.timeFrame[i].text, selected);
+    }
+    return timeFrameHtml;
 }
 
 // return a string with <option> TAG
@@ -321,17 +331,20 @@ function renderHistoryPage() {
     switch (displayParam.by) {
         case "weekly":
             $("li#displayWeekly").addClass("active");
-            displayParam = getStartEnd(displayParam);
+            displayParam = getStartEnd(displayParam, new Date());
+            // text display in the title
             dateTitle.find('span.date').text(displayParam.startDate.substring(0, 2) + "-" + displayParam.endDate);
             break;
         case "monthly":
             $("li#displayMonthly").addClass("active");
-            displayParam = getStartEnd(displayParam);
-            dateTitle.find('span.date').text(displayParam.startDate.substring(2));
+            displayParam = getStartEnd(displayParam, new Date());
+            // text display in the title
+            dateTitle.find('span.date').text(displayParam.startDate.substring(3));
             break;
         case "annually":
             $("li#displayAnnually").addClass("active");
-            displayParam = getStartEnd(displayParam);
+            displayParam = getStartEnd(displayParam, new Date());
+            // text display in the title
             dateTitle.find('span.date').text(displayParam.startDate.substring(6));
             break;
         case "all":
@@ -405,8 +418,7 @@ function listItemRender(transaction, account_id) {
     return li;
 }
 
-function getStartEnd(displayParam) {
-    var curr = new Date();
+function getStartEnd(displayParam, curr) {
     var firstDay,lastDay;
 
     switch (displayParam.by) {
@@ -471,7 +483,7 @@ function addCashFlowToUrl(displayParam, url) {
 
 function arraySearch(arr,val) {
     for (var i=0; i<arr.length; i++)
-        if (arr[i] === val)
+        if (arr[i] == val)
             return i;
     return false;
 }
@@ -671,4 +683,257 @@ function deleteCategory(i) {
     saveToStorage();
     ewallet = JSON.parse(localStorage.getItem('ewallet'));
     //alert(ewallet.categories.length);
+}
+
+/*************************************************
+*   BUDGET.HTML
+************************************************ */
+
+function BudgetHtmlRender() {
+    var budgets = ewallet.budgets;
+    var budgetsHTML = "";
+
+    for (var i = 0; i < budgets.length; i++) {
+        budgetsHTML += displayBudget(budgets[i], i);
+    }
+
+    $('#budgets').html(budgetsHTML);
+}
+
+
+function displayBudget(budget, budget_id) {
+    var html = "";
+    var budgetUsed = budgetUse(budget);
+    var budgetLeft = budget.limit - budgetUsed;
+    var currency = displayCurrencyHeb(ewallet.currencies, budget.currency);
+    var gfx = getPercentageAndColor(budgetLeft, budget.limit);
+
+    html += '<div class="budget">';
+    html += '<p class="title">' + budget.limit + ' ' + currency + ' לטובת '+ budget.category +' - <span class="green"><a href="budget-edit.html?budget_id=' + budget_id + '">עריכה</a></span></p>';
+    html += '<div class="meter ' + gfx.color + ' nostripes">';
+    html += '<span style="width: '+gfx.percent+'%"></span>';
+    html += '</div>';
+    html += '<p class="smaller">יתרה: <span class="used">' + budgetLeft + '</span> מתוך <span class="limit">' + budget.limit + '</span> ' + currency + '</p>';
+    html += '</div>';
+
+    return html;
+}
+
+function isTransactionWithinTimeFrame(transaction, timeFrameType) {
+    var now = new Date();
+    var displayParam = {
+        "by": timeFrameType,
+        "startDate": "",
+        "endDate": "",
+        "cashFlowType": "expense"
+    };
+    displayParam = getStartEnd(displayParam, now);
+
+    return isDateBetween(displayParam.startDate, displayParam.endDate, transaction.date);
+}
+
+function getPercentageAndColor(left, limit) {
+    var gfx = {
+        "percent": 0,
+        "color:": "green"
+    };
+    gfx.percent = (left/limit)*100;
+    if (gfx.percent >= 0 && gfx.percent < 25) gfx.color = "red";
+    else if (gfx.percent >= 25 && gfx.percent < 50) gfx.color = "orange";
+    else if (gfx.percent >= 50 && gfx.percent < 75) gfx.color = "yellow";
+
+    return gfx;
+
+}
+
+function displayCurrencyHeb(currencies, currencyName ) {
+    var currencyDisplay = "";
+    for(var i = 0; i < currencies.length; i++) {
+        if (currencies[i].name == currencyName) {
+            currencyDisplay = currencies[i].display;
+            break;
+        }
+    }
+    return currencyDisplay;
+}
+
+function budgetUse(budget) {
+    var transactions = ewallet.transactions;
+    var sum = 0;
+    var account_ids = budget.accounts;
+
+    console.log(budget.accounts);
+    for (var i = 0; i < transactions.length; i++) {
+
+        // if is part of monitored accounts
+        if (isAccountInBudget(transactions[i].account_id, budget.accounts)) {
+            // if part of monitored category
+            if (transactions[i].category == budget.category) {
+                // if part of monitored time period
+                if (isTransactionWithinTimeFrame(transactions[i], budget.timeFrameType)) {
+                    sum += parseFloat(transactions[i].sum);
+                }
+
+            }
+        }
+    }
+
+
+    console.log("sum: " + sum);
+
+    return sum;
+}
+
+function isAccountInBudget(account_id, accountsArray) {
+    for (var i = 0; i < accountsArray.length; i++) {
+        if (accountsArray[i] == account_id) return true;
+    }
+    return false;
+}
+
+
+/*************************************************
+ *   NEW-BUDGET.HTML
+ ************************************************ */
+function newBudgetPageRender() {
+    // set categories
+    $("#category").html(categoriesRender("expense"));
+    // set timeFrames
+    $("#timeFrameType").html(timeFrameRender());
+    // set accounts
+    $("div.checkboxes.accounts").html(budgetMultiCheckboxesRender("accounts", []));
+    // set payments
+    $("div.checkboxes.payments").html(budgetMultiCheckboxesRender("payments", []));
+}
+
+function generatePaymentsTable(paymentArray) {
+    var payments = [];
+    var i = 0;
+    if (paymentArray.length > 0) {
+        for (i = 0; i < paymentArray.length; i++) {
+            payments.push(paymentArray[i].name)
+        }
+    }
+    else {
+
+        for (i = 0; i < ewallet.categories.length; i++) {
+            if (ewallet.categories[i].type == "payment") {
+                payments.push(ewallet.categories[i])
+            }
+        }
+    }
+
+    return payments;
+}
+
+function budgetMultiCheckboxesRender(tableName, checkedArray) {
+    var table;
+    if (tableName == "payments") table = generatePaymentsTable([]);
+    else table = ewallet[tableName];
+    var checked = "";
+    var html = "";
+    var value = "";
+
+    for (var i = 0; i < table.length; i++) {
+        if (checkedArray.length > 0){
+            if (arraySearch(checkedArray, i) == i || arraySearch(checkedArray, table[i].name) == i) {
+                checked = "checked"
+            } else checked = "";
+        }
+        if (tableName == "payments") {
+            value = table[i].name;
+        }
+        else value = i;
+
+        html += '<label for="account-' + i + '">';
+        html += '<input type="checkbox" id="account-' + i + '" value="'+value+'" class="'+tableName+'"' + checked +'/>';
+        html += table[i].name;
+        html += '</label>';
+    }
+
+    return html;
+}
+
+function showCheckboxes(field) {
+    $(".checkboxes." + field).toggle(500);
+}
+
+function addBudget() {
+    var form = $("#newBudget");
+    var newBudget = {
+        "category": form.find("select#category option:selected").text(),
+        "accounts": getMultiCheckboxValuesArray("accounts"),
+        "paymentTypes": getMultiCheckboxValuesArray("payments"),
+        "timeFrameType": form.find("select#timeFrameType option:selected").val(),
+        "date": "",
+        "currency": "ILS",
+        "limit": form.find("#limit").val(),
+        "description": form.find("#description").val()
+    };
+
+    ewallet.budgets.push(newBudget);
+    saveToStorage();
+
+    history.back();
+}
+
+function getMultiCheckboxValuesArray (tableName) {
+    var allVals = [];
+    $('div.checkboxes.'+tableName+' :checked').each(function() {
+        allVals.push($(this).val());
+    });
+
+    return allVals;
+}
+
+
+
+/*************************************************
+ *   BUDGET-EDIT.HTML
+ ************************************************ */
+function budgetEditRender() {
+    var budget_id = $.urlParam('budget_id');
+    var budget = ewallet.budgets[budget_id];
+
+    // set categories
+    $("#category").html(categoriesRender("expense", budget.category));
+    // set timeFrames
+    $("#timeFrameType").html(timeFrameRender(budget.timeFrameType));
+    // set accounts
+    $("div.checkboxes.accounts").html(budgetMultiCheckboxesRender("accounts", budget.accounts));
+    // set payments
+    $("div.checkboxes.payments").html(budgetMultiCheckboxesRender("payments", budget.paymentTypes));
+    // set balance
+    $("#limit").val(budget.limit);
+    // set description
+    $("#description").val(budget.description);
+
+}
+
+function updateBudget() {
+    var budget_id = $.urlParam('budget_id');
+    var form = $("#newBudget");
+    var updatedBudget = {
+        "category": form.find("select#category option:selected").text(),
+        "accounts": getMultiCheckboxValuesArray("accounts"),
+        "paymentTypes": getMultiCheckboxValuesArray("payments"),
+        "timeFrameType": form.find("select#timeFrameType option:selected").val(),
+        "date": "",
+        "currency": "ILS",
+        "limit": form.find("#limit").val(),
+        "description": form.find("#description").val()
+    };
+
+    ewallet.budgets[budget_id] = updatedBudget;
+    saveToStorage();
+
+    history.back();
+}
+function deleteBudget() {
+    var budget_id = $.urlParam('budget_id');
+
+    ewallet.budgets.splice(budget_id, 1);
+
+    saveToStorage();
+    history.back();
 }

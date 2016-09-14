@@ -43,12 +43,27 @@ function setLocalStorage() {
                     "subcategories": []
                 },
                 {
+                    "name": "דיור",
+                    "type": "expense",
+                    "subcategories": []
+                },
+                {
                     "name": "חסכונות",
                     "type": "expense",
                     "subcategories": []
                 },
                 {
-                    "name": "דלק",
+                    "name": "רכב",
+                    "type": "expense",
+                    "subcategories": []
+                },
+                {
+                    "name": "תחבורה ציבורית",
+                    "type": "expense",
+                    "subcategories": []
+                },
+                {
+                    "name": "חשבונות חודשיים",
                     "type": "expense",
                     "subcategories": []
                 },
@@ -58,7 +73,32 @@ function setLocalStorage() {
                     "subcategories": []
                 },
                 {
-                    "name": "בגדים",
+                    "name": "ילדים",
+                    "type": "expense",
+                    "subcategories": []
+                },
+                {
+                    "name": "ביגוד והנעלה",
+                    "type": "expense",
+                    "subcategories": []
+                },
+                {
+                    "name": "לימודים",
+                    "type": "expense",
+                    "subcategories": []
+                },
+                {
+                    "name": "פנאי ובילויים",
+                    "type": "expense",
+                    "subcategories": []
+                },
+                {
+                    "name": "חופשות",
+                    "type": "expense",
+                    "subcategories": []
+                },
+                {
+                    "name": "אחר",
                     "type": "expense",
                     "subcategories": []
                 },
@@ -67,17 +107,6 @@ function setLocalStorage() {
                     "type": "income",
                     "subcategories": []
                 },
-                {
-                    "name": "ילדים",
-                    "type": "expense",
-                    "subcategories": []
-                },
-                {
-                    "name": "פנאי",
-                    "type": "expense",
-                    "subcategories": []
-                },
-
                 {
                     "name": "מזומן",
                     "type": "payment"
@@ -105,6 +134,28 @@ function setLocalStorage() {
             ],
             transactions:[],
             cashFlowTypes:["income", "expense", "all"],
+            timeFrame: [
+                {
+                    "name": "weekly",
+                    "text": "שבועי",
+                    "type": "recurring"
+                },
+                {
+                    "name": "monthly",
+                    "text": "חודשי",
+                    "type": "recurring"
+                },
+                {
+                    "name": "annually",
+                    "text": "שנתי",
+                    "type": "recurring"
+                },
+                {
+                    "name": "date",
+                    "text": "עד תאריך",
+                    "type": "date"
+                },
+            ],
             currencies: [
                 {
                     "name": "USD",
@@ -121,6 +172,28 @@ function setLocalStorage() {
                 {
                     "name": "PND",
                     "display": 'ליט"ש'
+                }
+            ],
+            budgets: [
+                {
+                    "category": "דלק",
+                    "accounts": [0],
+                    "paymentTypes": [{"name": "מזומן"},{"name": "אשראי"}],
+                    "timeFrameType": "monthly",
+                    "date": "",
+                    "limit": 1000,
+                    "currency": "ILS",
+                    "description": "עבור דלק חודשי"
+                },
+                {
+                    "category": "חופשות",
+                    "accounts": [0,2],
+                    "paymentTypes": [{"name": "מזומן"},{"name": "אשראי"}],
+                    "timeFrameType": "annually",
+                    "date": "",
+                    "limit": 10000,
+                    "currency": "ILS",
+                    "description": "עבור חופשות שנתי"
                 }
             ]
         };

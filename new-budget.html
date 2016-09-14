@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>New Budget</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://fonts.googleapis.com/css?family=Alef:400,700|Open+Sans:700|Rubik:400,700" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+    <div id="body">
+        <div class="title">
+            <h1>תקציב חדש</h1>
+        </div>
+        <div class="container">
+            <form method="post" action="" id="newBudget">
+                <div class="form">
+
+                    <p class="">
+                        <label for="category">מקור</label>
+                        <select name="category" id="category">
+                        </select>
+                    </p>
+                    <div id="account_id" class="multiselect">
+                        <div class="selectBox" onclick="showCheckboxes('accounts')">
+
+                            <select>
+                                <option>בחר חשבון</option>
+                            </select>
+                            <div class="overSelect"></div>
+                        </div>
+                        <div class="checkboxes accounts">
+                            <label for="account-0"><input type="checkbox" id="account-0"/>First checkbox</label>
+                            <label for="account-1"><input type="checkbox" id="account-1"/>Second checkbox </label>
+                            <label for="account-2"><input type="checkbox" id="account-2"/>Third checkbox</label>
+                        </div>
+                    </div>
+
+                    <div id="payment" class="multiselect">
+                        <div class="selectBox" onclick="showCheckboxes('payments')">
+
+                            <select>
+                                <option>בחר אמצעי תשלום</option>
+                            </select>
+                            <div class="overSelect"></div>
+                        </div>
+                        <div class="checkboxes payments">
+                            <label for="payment-0"><input type="checkbox" id="payment-0"/>מזומן</label>
+                            <label for="payment-1"><input type="checkbox" id="payment-1"/>אשראי</label>
+                            <label for="payment-2"><input type="checkbox" id="payment-2"/>PayPal</label>
+                        </div>
+                    </div>
+
+
+                    <p class="">
+                        <label for="timeFrameType">תקופת זמן</label>
+                        <select name="timeFrameType" id="timeFrameType">
+                            <option value="weekly">שבועי</option>
+                            <option value="monthly">חודשי</option>
+                            <option value="annually">שנתי</option>
+                        </select>
+                    </p>
+
+
+                    <p>
+                        <label for="limit">סכום:</label>
+                        <input type="number" name="limit" id="limit" value="">
+                    </p>
+
+                    <p>
+                        <label for="description">פירוט:</label>
+                        <input type="text" name="description" id="description" placeholder="טקסט לפירוט">
+                    </p>
+
+                </div>
+
+                <div class="buttons">
+
+                    <p>
+                        <a href="javascript:addBudget()" class="button">הוסף</a>
+                        <a href="javascript:history.back()" class="button">חזור</a>
+                    </p>
+            </div>
+            </form>
+
+        </div>
+    </div>
+
+    <script src="jquery-3.1.0.js"></script>
+    <script src="moment.min.js"></script>
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+    <script>
+
+
+        newBudgetPageRender();
+
+    </script>
+</body>
+</html>
