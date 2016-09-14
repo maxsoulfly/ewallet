@@ -532,7 +532,7 @@ function accountEditPageRender() {
     $("#description").val(account.description);
     $("#balance").val(account.balance);
     // Populate Currencies
-    $("#currency").html(currenciesListRender(account.currency));
+    //$("#currency").html(currenciesListRender(account.currency));
 }
 
 function updateAccount() {
@@ -545,7 +545,7 @@ function updateAccount() {
         "name": form.find("input#account_name").val(),
         "type": form.find("input#type").val(),
         "description": form.find("input#description").val(),
-        "currency": form.find("select#currency option:selected").val(),
+        "currency": form.find("#currency").val(),
         "balance": form.find("input#balance").val(),
     };
 
@@ -590,7 +590,7 @@ function newAccountPageRender() {
     // Set Values
     $("#type").val(type);
     // Populate Currencies
-    $("#currency").html(currenciesListRender("ILS"));
+    //$("#currency").html(currenciesListRender("ILS"));
 }
 
 function addAccount() {
@@ -601,7 +601,7 @@ function addAccount() {
         "name": form.find("input#account_name").val(),
         "type": form.find("input#type").val(),
         "description": form.find("input#description").val(),
-        "currency": form.find("select#currency option:selected").val(),
+        "currency": form.find("#currency").val(),
         "balance": form.find("input#balance").val(),
     };
     ewallet.accounts.push(newAccount);
