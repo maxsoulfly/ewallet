@@ -149,12 +149,7 @@ function setLocalStorage() {
                     "name": "annually",
                     "text": "שנתי",
                     "type": "recurring"
-                },
-                {
-                    "name": "date",
-                    "text": "עד תאריך",
-                    "type": "date"
-                },
+                }
             ],
             currencies: [
                 {

@@ -18,6 +18,13 @@ function saveToStorage () {
     localStorage.setItem( 'ewallet',  JSON.stringify(ewallet) );
 }
 
+Date.prototype.addDays = function(days)
+{
+    var dat = new Date(this.valueOf());
+    dat.setDate(dat.getDate() + days);
+    return dat;
+};
+
 /***************************************************
  ACCOUNTS.HTML FUNCTIONS
  ***************************************************/
@@ -312,6 +319,9 @@ function renderHistoryPage() {
     var ulTable = $('ul.history.table');
     var dateTitle = $('div.date p');
     var accounts = ewallet.accounts;
+    var viewDate = $("#viewDate");
+
+    var offset = $.urlParam('offset') != null ? $.urlParam('offset') : 0;
     // RENDER PAGE:
     if (accounts[account_id].type == "account")
         $('#back').attr("href", "view_account.html?account_id=" + account_id);
@@ -328,22 +338,28 @@ function renderHistoryPage() {
     $(".title img").attr("src", "hist_" + displayParam.cashFlowType + ".png");
 
     $("ul.nav li").removeClass("active");
+
     switch (displayParam.by) {
         case "weekly":
             $("li#displayWeekly").addClass("active");
-            displayParam = getStartEnd(displayParam, new Date());
+            displayParam = getStartEnd(displayParam );
             // text display in the title
-            dateTitle.find('span.date').text(displayParam.startDate.substring(0, 2) + "-" + displayParam.endDate);
+            if (displayParam.startDate.substring(3, 5) != displayParam.endDate.substring(3, 5)) {
+                dateTitle.find('span.date').text(displayParam.startDate.substring(0, 5) + "-" + displayParam.endDate);
+            }
+            else {
+                dateTitle.find('span.date').text(displayParam.startDate.substring(0, 2) + "-" + displayParam.endDate);
+            }
             break;
         case "monthly":
             $("li#displayMonthly").addClass("active");
-            displayParam = getStartEnd(displayParam, new Date());
+            displayParam = getStartEnd(displayParam);
             // text display in the title
             dateTitle.find('span.date').text(displayParam.startDate.substring(3));
             break;
         case "annually":
             $("li#displayAnnually").addClass("active");
-            displayParam = getStartEnd(displayParam, new Date());
+            displayParam = getStartEnd(displayParam);
             // text display in the title
             dateTitle.find('span.date').text(displayParam.startDate.substring(6));
             break;
@@ -359,6 +375,53 @@ function renderHistoryPage() {
     ulTable.html(ulTable.html() + transactionsListHtml);
 }
 // -------------  FUNCTIONS  -------------------- //
+function getStartEnd(displayParam) {
+    var curr = new Date();
+    var firstDay,lastDay;
+
+    switch (displayParam.by) {
+        case "weekly":
+            firstDay = new Date((curr.addDays(parseInt(displayParam.offset*7)))).addDays(-curr.getDay()); // First day is the day of the month - the day of the week
+            lastDay = firstDay.addDays(6); // last day is the first day + 6
+
+            break;
+        case "monthly":
+            firstDay = new Date(curr.getFullYear(), curr.getMonth() + parseInt(displayParam.offset), 1);
+            lastDay = new Date(curr.getFullYear(), curr.getMonth() + 1 + parseInt(displayParam.offset), 0);
+            break;
+        case "annually":
+            firstDay = new Date(curr.getFullYear() + parseInt(displayParam.offset), 1, 1);
+            lastDay = new Date(curr.getFullYear() + parseInt(displayParam.offset), 11, 31);
+            break;
+        default:
+    }
+    displayParam.startDate = makeDate(firstDay);
+    displayParam.endDate = makeDate(lastDay);
+
+    return displayParam;
+}
+
+function isDateBetween(dateFrom, dateTo, dateCheck) {
+
+    dateCheck = makeDate(dateCheck);
+    var d1 = dateFrom.split("/");
+    var d2 = dateTo.split("/");
+    var c = dateCheck.split("/");
+
+    var from = new Date(d1[2], parseInt(d1[1])-1, d1[0]);  // -1 because months are from 0 to 11
+    var to   = new Date(d2[2], parseInt(d2[1])-1, d2[0]);
+    var check = new Date(c[2], parseInt(c[1])-1, c[0]);
+
+    return check >= from && check <= to;
+}
+
+function offset(offset) {
+    var currentUrl = window.location.href;
+    displayParam.offset = parseInt(displayParam.offset) + parseInt(offset);
+    currentUrl = addOffsetToUrl(displayParam, currentUrl);
+    window.location.href = currentUrl;
+}
+
 function getTransactions(account_id, displayParam) {
     var transactionsFiltered = [];
     var transactions = ewallet.transactions;
@@ -418,47 +481,6 @@ function listItemRender(transaction, account_id) {
     return li;
 }
 
-function getStartEnd(displayParam, curr) {
-    var firstDay,lastDay;
-
-    switch (displayParam.by) {
-        case "weekly":
-            var first = curr.getDate() - curr.getDay(); // First day is the day of the month - the day of the week
-            var last = first + 6; // last day is the first day + 6
-            firstDay = new Date(curr.setDate(first));
-            lastDay = new Date(curr.setDate(last));
-            break;
-        case "monthly":
-            firstDay = new Date(curr.getFullYear(), curr.getMonth(), 1);
-            lastDay = new Date(curr.getFullYear(), curr.getMonth() + 1, 0);
-            break;
-        case "annually":
-            firstDay = new Date(curr.getFullYear(), 1, 1);
-            lastDay = new Date(curr.getFullYear(), 11, 31);
-            break;
-        default:
-    }
-
-    displayParam.startDate = makeDate(firstDay);
-    displayParam.endDate = makeDate(lastDay);
-
-    return displayParam;
-}
-
-function isDateBetween(dateFrom, dateTo, dateCheck) {
-
-    dateCheck = makeDate(dateCheck);
-    var d1 = dateFrom.split("/");
-    var d2 = dateTo.split("/");
-    var c = dateCheck.split("/");
-
-    var from = new Date(d1[2], parseInt(d1[1])-1, d1[0]);  // -1 because months are from 0 to 11
-    var to   = new Date(d2[2], parseInt(d2[1])-1, d2[0]);
-    var check = new Date(c[2], parseInt(c[1])-1, c[0]);
-
-    return check >= from && check <= to;
-}
-
 function changeCashFlow(displayParam) {
     var currentUrl = window.location.href;
     var cashFlowTypes = ewallet.cashFlowTypes;
@@ -481,6 +503,15 @@ function addCashFlowToUrl(displayParam, url) {
     return url;
 }
 
+function addOffsetToUrl(displayParam, url) {
+    if (url.indexOf('&offset') > -1) {
+        var indexOf = url.indexOf("&offset");
+        url = url.substring(0,indexOf);
+    }
+    url += "&offset=" + displayParam.offset;
+
+    return url;
+}
 function arraySearch(arr,val) {
     for (var i=0; i<arr.length; i++)
         if (arr[i] == val)
@@ -725,9 +756,10 @@ function isTransactionWithinTimeFrame(transaction, timeFrameType) {
         "by": timeFrameType,
         "startDate": "",
         "endDate": "",
+        "offset": 0,
         "cashFlowType": "expense"
     };
-    displayParam = getStartEnd(displayParam, now);
+    displayParam = getStartEnd(displayParam);
 
     return isDateBetween(displayParam.startDate, displayParam.endDate, transaction.date);
 }
