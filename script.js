@@ -877,8 +877,8 @@ function budgetMultiCheckboxesRender(tableName, checkedArray) {
         }
         else value = i;
 
-        html += '<label for="account-' + i + '">';
-        html += '<input type="checkbox" id="account-' + i + '" value="'+value+'" class="'+tableName+'"' + checked +'/>';
+        html += '<label for="'+tableName+'-' + i + '">';
+        html += '<input type="checkbox" id="'+tableName+'-' + i + '" value="'+value+'" class="'+tableName+'"' + checked +'/>';
         html += table[i].name;
         html += '</label>';
     }
