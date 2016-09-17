@@ -1,0 +1,338 @@
+{
+  "accounts":[
+    {
+      "name":"חשבון ראשי",
+      "type":"account",
+      "description":"חשבון ראשי",
+      "currency":"ILS",
+      "balance":5800
+    },
+    {
+      "name":"חשבון צמיחה",
+      "type":"savings",
+      "description":"חשבון להשקעות",
+      "currency":"ILS",
+      "balance":500
+    },
+    {
+      "name":"חשבון לייפסטייל",
+      "type":"savings",
+      "description":"חשבון לפאן",
+      "currency":"ILS",
+      "balance":"1000"
+    },
+    {
+      "name":"חשבון עסקי",
+      "type":"account",
+      "description":"עסקי",
+      "currency":"ILS",
+      "balance":"0"
+    }
+  ],
+  "categories":[
+    {
+      "name":"משכורת",
+      "type":"income",
+      "subcategories":[
+
+      ]
+    },
+    {
+      "name":"דיור",
+      "type":"expense",
+      "subcategories":[
+
+      ]
+    },
+    {
+      "name":"חסכונות",
+      "type":"expense",
+      "subcategories":[
+
+      ]
+    },
+    {
+      "name":"דלק",
+      "type":"expense",
+      "subcategories":[
+
+      ]
+    },
+    {
+      "name":"רכב",
+      "type":"expense",
+      "subcategories":[
+
+      ]
+    },
+    {
+      "name":"תחבורה ציבורית",
+      "type":"expense",
+      "subcategories":[
+
+      ]
+    },
+    {
+      "name":"חשבונות חודשיים",
+      "type":"expense",
+      "subcategories":[
+
+      ]
+    },
+    {
+      "name":"מזון",
+      "type":"expense",
+      "subcategories":[
+
+      ]
+    },
+    {
+      "name":"ילדים",
+      "type":"expense",
+      "subcategories":[
+
+      ]
+    },
+    {
+      "name":"ביגוד והנעלה",
+      "type":"expense",
+      "subcategories":[
+
+      ]
+    },
+    {
+      "name":"לימודים",
+      "type":"expense",
+      "subcategories":[
+
+      ]
+    },
+    {
+      "name":"פנאי ובילויים",
+      "type":"expense",
+      "subcategories":[
+
+      ]
+    },
+    {
+      "name":"חופשות",
+      "type":"expense",
+      "subcategories":[
+
+      ]
+    },
+    {
+      "name":"אחר",
+      "type":"expense",
+      "subcategories":[
+
+      ]
+    },
+    {
+      "name":"עסק",
+      "type":"income",
+      "subcategories":[
+
+      ]
+    },
+    {
+      "name":"מזומן",
+      "type":"payment"
+    },
+    {
+      "name":"אשראי",
+      "type":"payment"
+    },
+    {
+      "name":"העברה בנקאית",
+      "type":"payment"
+    },
+    {
+      "name":"צ'ק",
+      "type":"payment"
+    },
+    {
+      "name":"דיירקט",
+      "type":"payment"
+    },
+    {
+      "name":"PayPal",
+      "type":"payment"
+    }
+  ],
+  "transactions":[
+    {
+      "account_id":"0",
+      "type":"income",
+      "date":"2016-09-10",
+      "time":"00:48",
+      "sum":"6000",
+      "details":"",
+      "payment":"העברה בנקאית",
+      "category":"משכורת",
+      "from_account_id":"",
+      "to_account_id":""
+    },
+    {
+      "account_id":"0",
+      "type":"expense",
+      "date":"2016-09-10",
+      "time":"00:48",
+      "sum":"1500",
+      "details":"טיסות לקפריסין",
+      "payment":"אשראי",
+      "category":"חופשות",
+      "from_account_id":"",
+      "to_account_id":""
+    },
+    {
+      "account_id":"0",
+      "type":"expense",
+      "date":"2016-09-10",
+      "time":"00:49",
+      "sum":"2000",
+      "details":"בית מלון",
+      "payment":"אשראי",
+      "category":"חופשות",
+      "from_account_id":"",
+      "to_account_id":""
+    },
+    {
+      "account_id":"0",
+      "type":"expense",
+      "date":"2016-09-11",
+      "time":"00:50",
+      "sum":"250",
+      "details":"",
+      "payment":"מזומן",
+      "category":"דלק",
+      "from_account_id":"",
+      "to_account_id":""
+    },
+    {
+      "account_id":"0",
+      "type":"expense",
+      "date":"2016-08-28",
+      "time":"02:23",
+      "sum":"150",
+      "details":"",
+      "payment":"מזומן",
+      "category":"דלק",
+      "from_account_id":"",
+      "to_account_id":""
+    }
+  ],
+  "cashFlowTypes":[
+    "income",
+    "expense",
+    "all"
+  ],
+  "timeFrame":[
+    {
+      "name":"weekly",
+      "text":"שבועי",
+      "type":"recurring"
+    },
+    {
+      "name":"monthly",
+      "text":"חודשי",
+      "type":"recurring"
+    },
+    {
+      "name":"annually",
+      "text":"שנתי",
+      "type":"recurring"
+    },
+    {
+      "name":"date",
+      "text":"עד תאריך",
+      "type":"date"
+    }
+  ],
+  "currencies":[
+    {
+      "name":"USD",
+      "display":"דולר"
+    },
+    {
+      "name":"ILS",
+      "display":"ש\"ח"
+    },
+    {
+      "name":"EUR",
+      "display":"אירו"
+    },
+    {
+      "name":"PND",
+      "display":"ליט\"ש"
+    }
+  ],
+  "budgets":[
+    {
+      "category":"דלק",
+      "accounts":[
+        0
+      ],
+      "paymentTypes":[
+        {
+          "name":"מזומן"
+        },
+        {
+          "name":"אשראי"
+        }
+      ],
+      "timeFrameType":"monthly",
+      "date":"",
+      "limit":1000,
+      "currency":"ILS",
+      "description":"עבור דלק חודשי"
+    },
+    {
+      "category":"חופשות",
+      "accounts":[
+        0,
+        2
+      ],
+      "paymentTypes":[
+        {
+          "name":"מזומן"
+        },
+        {
+          "name":"אשראי"
+        }
+      ],
+      "timeFrameType":"annually",
+      "date":"",
+      "limit":10000,
+      "currency":"ILS",
+      "description":"עבור חופשות שנתי"
+    },
+    {
+      "category":"מזון",
+      "accounts":[
+        "0"
+      ],
+      "paymentTypes":[
+        "0",
+        "1"
+      ],
+      "timeFrameType":"שבועי",
+      "date":"",
+      "limit":"150",
+      "description":"מזון שבועי"
+    },
+    {
+      "category":"דיור",
+      "accounts":[
+        "0"
+      ],
+      "paymentTypes":[
+        "3"
+      ],
+      "timeFrameType":"חודשי",
+      "date":"",
+      "limit":"3000",
+      "description":""
+    }
+  ]
+}

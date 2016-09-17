@@ -53,6 +53,11 @@ function setLocalStorage() {
                     "subcategories": []
                 },
                 {
+                    "name": "דלק",
+                    "type": "expense",
+                    "subcategories": []
+                },
+                {
                     "name": "רכב",
                     "type": "expense",
                     "subcategories": []
@@ -169,28 +174,7 @@ function setLocalStorage() {
                     "display": 'ליט"ש'
                 }
             ],
-            budgets: [
-                {
-                    "category": "דלק",
-                    "accounts": [0],
-                    "paymentTypes": [{"name": "מזומן"},{"name": "אשראי"}],
-                    "timeFrameType": "monthly",
-                    "date": "",
-                    "limit": 1000,
-                    "currency": "ILS",
-                    "description": "עבור דלק חודשי"
-                },
-                {
-                    "category": "חופשות",
-                    "accounts": [0,2],
-                    "paymentTypes": [{"name": "מזומן"},{"name": "אשראי"}],
-                    "timeFrameType": "annually",
-                    "date": "",
-                    "limit": 10000,
-                    "currency": "ILS",
-                    "description": "עבור חופשות שנתי"
-                }
-            ]
+            budgets: []
         };
         localStorage.setItem( 'ewallet',  JSON.stringify(ewallet) );
     }

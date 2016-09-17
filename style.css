@@ -15,6 +15,7 @@ input {
     color: #CB9B2D
 }
 input[readonly] { border-bottom: 0; }
+input#balance {direction: ltr}
 .form .new-transaction input#from_account_id {
     font-size: 1.4rem !important;
     background-color: #CB9B2D !important;
@@ -98,13 +99,13 @@ ul, ol { list-style: none; margin: 0; padding: 0;}
 #body > .container a.button.bg-green { background-color: #0A9444; color:#FFFFFF !important;}
 #body > .container a.button-med.bg-red,
 #body > .container a.button.bg-red { background-color: #EE1C25; color:#FFFFFF  !important; }
-#body > .container a.button-med { font-size: 2.8em; width: 6em; height: 1.4em; }
+#body > .container a.button-med { font-size: 2.5em; width: 6em; height: 1.4em; padding: .1em .2em;}
 
 #body > .container h3{}
 #body > .container a{ text-decoration: none; font-weight: bold; color: inherit;  }
 #body > .container > div { display: block;}
 
-#body > .container .balance {margin: .5em 0;}
+#body > .container .balance {margin: .5em 0; direction: ltr;}
 #body > .container .balance h3 { margin: 0; font-size: 1.2em;}
 #body > .container .balance p { margin: 0;, sans-serif; font-weight: bold;}
 
@@ -119,7 +120,7 @@ ul, ol { list-style: none; margin: 0; padding: 0;}
 #body > .container .form p { margin-top: 0; font-family: 'Alef', sans-serif; font-weight: bold; display: flex; justify-content: space-between; line-height: 1em; font-size: 0.8em}
 .multiselect,
 #body > .container .form p.smaller { font-size: .7em; text-align: right}
-#body > .container .form p.edit {border-bottom: 1px solid #32210F; font-size: 1.8em; line-height: 1rem; margin: 0;}
+#body > .container .form p.edit {border-bottom: 1px solid #32210F; font-size: 1.5em; line-height: 1rem; margin: 0;}
 #body > .container .form p.edit input {border: 0; text-align: center; width: 90%;  color: #32210F; font-weight: bold;}
 #body > .container .form a.remove { font-size: .8em; text-align: right; color: #EE1C25; font-weight: normal; line-height: 1em;}
 
@@ -159,3 +160,35 @@ ul, ol { list-style: none; margin: 0; padding: 0;}
 
 .green { color: #0A9444;}
 .red { color: #EE1C25;}
+
+
+.logo { font-family: 'Rubik', sans-serif;}
+.logo h1 { line-height: 1em; margin-bottom: 0; }
+.logo p{ margin-top: 0; color: #d59d65; font-size: .8em}
+.logo a{ color: #d59d65;}
+
+
+@media screen and (min-width: 380px) {
+    #body > .container-flex > a.button-big {
+        width: 5.5em;
+        height: 5em;
+        border-radius: 5%;
+        font-size: 1.1em;
+        margin: 1em .5em;
+        padding: 0 1em;
+    }
+
+}
+
+@media screen and (min-width: 430px) {
+
+
+    #body > .container-flex > a.button-big {
+        width: 6em;
+        height: 5.5em;
+        border-radius: 5%;
+        font-size: 1.2em;
+        margin: 1em .5em;
+        padding: 0 1em;
+    }
+}

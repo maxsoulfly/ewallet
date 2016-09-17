@@ -59,9 +59,16 @@ function viewAccountRender() {
     var sum = calcBalanceCurMonth(allTransactions);
     var income = (sum.income > 0 ? sum.income.toLocaleString() + "+" : sum.income.toLocaleString());
     var expense = (sum.expense > 0 ? sum.expense.toLocaleString() + "-" : sum.expense.toLocaleString());
+    var balance = $(".balance").find("p");
 
     // SET ACCOUNT VALUES
-    $(".balance").find("p").html(account.balance.toLocaleString());
+    balance.html(account.balance);
+    if (parseFloat(account.balance) < 0) {
+        balance.removeClass("green").addClass("red");
+    }
+    else {
+        balance.removeClass("red").addClass("green");
+    }
     $(".title").find("h1").html(account.name);
     $("head title").html(account.name);
     $("#income").html(income);
@@ -873,15 +880,28 @@ function budgetMultiCheckboxesRender(tableName, checkedArray) {
             } else checked = "";
         }
         if (tableName == "payments") {
-            value = table[i].name;
+            html += multiCheckboxLine(tableName, table[i].name, checked, table[i].name, i);
         }
-        else value = i;
-
-        html += '<label for="'+tableName+'-' + i + '">';
-        html += '<input type="checkbox" id="'+tableName+'-' + i + '" value="'+value+'" class="'+tableName+'"' + checked +'/>';
-        html += table[i].name;
-        html += '</label>';
+        else {
+            if (table[i].type == "account") {
+                html += multiCheckboxLine(tableName, i, checked, table[i].name, i);
+            }
+        }
     }
+    if (tableName == "payments") {
+        html += '<hr><label><input type="checkbox" id="checkAll"/> בחר הכל</label>';
+    }
+
+    return html;
+}
+
+function multiCheckboxLine(tableName, value, checked, name, index) {
+    var html = "";
+
+    html += '<label for="'+tableName+'-' + index + '">';
+    html += '<input type="checkbox" id="'+tableName+'-' + index + '" value="'+value+'" class="'+tableName+'"' + checked +'/>';
+    html += name;
+    html += '</label>';
 
     return html;
 }
@@ -940,6 +960,9 @@ function budgetEditRender() {
     // set description
     $("#description").val(budget.description);
 
+    $("#checkAll").change(function () {
+        $("div.checkboxes.payments input:checkbox").prop('checked', $(this).prop("checked"));
+    });
 }
 
 function updateBudget() {

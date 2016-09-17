@@ -19,7 +19,7 @@
                 <div class="form">
 
                     <p class="">
-                        <label for="category">מקור</label>
+                        <label for="category">קטגוריה</label>
                         <select name="category" id="category">
                         </select>
                     </p>
@@ -47,6 +47,7 @@
                             <div class="overSelect"></div>
                         </div>
                         <div class="checkboxes payments">
+                            <a href="javascript: selectAllPayments()">Select All</a>
                             <label for="payment-0"><input type="checkbox" id="payment-0"/>מזומן</label>
                             <label for="payment-1"><input type="checkbox" id="payment-1"/>אשראי</label>
                             <label for="payment-2"><input type="checkbox" id="payment-2"/>PayPal</label>
@@ -98,6 +99,7 @@
     <script src="script.js"></script>
     <script>
         budgetEditRender();
+
 
     </script>
 </body>
