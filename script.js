@@ -33,7 +33,7 @@ function accountsRender(type) {
     var accounts = ewallet.accounts;
     for(var i = 0; i < accounts.length; i ++) {
         if (accounts[i].type == "account" && accounts[i].type == type) {
-            accountsHtmlRender += '<p><a href=' + i + '"index.html?account_id=">' + accounts[i].name + '</a> </p>';
+            accountsHtmlRender += '<p><a href="view_account.html?account_id=' + i + '">' + accounts[i].name + '</a> </p>';
         }
         else if (accounts[i].type == "savings" && accounts[i].type == type) {
             accountsHtmlRender += '<p><a href="savings-account.html?account_id=' + i + '">' + accounts[i].name + '</a> </p>';
@@ -52,8 +52,7 @@ function accountsRender(type) {
     VIEW_ACCOUNT.HTML FUNCTIONS
 ***************************************************/
 function viewAccountRender() {
-    // var account_id = $.urlParam('account_id');
-    var account_id = 0;
+    var account_id = $.urlParam('account_id');
     var account = ewallet.accounts[account_id];
     var allTransactions = getAccountTransactions(ewallet.transactions, account_id);
 
@@ -70,8 +69,8 @@ function viewAccountRender() {
     else {
         balance.removeClass("red").addClass("green");
     }
-    // $(".title").find("h1").html(account.name);
-    // $("head title").html(account.name);
+    $(".title").find("h1").html(account.name);
+    $("head title").html(account.name);
     $("#income").html(income);
     $("#expense").html(expense);
 
@@ -163,7 +162,7 @@ function newTransactionRender(type) {
     $('#time').val(time);
     $('#payment').html(paymentTypesHtml);
     $('#category').html(categoriesHtml);
-    $('#back').attr("href", "index.html?account_id=" + account_id);
+    $('#back').attr("href", "view_account.html?account_id=" + account_id);
 }
 
 function addTransaction() {
@@ -277,7 +276,7 @@ function newTransactionPageRender () {
 
 
     if (accounts[account_id].type == "account")
-        $('#back').attr("href", "index.html?account_id=" + account_id);
+        $('#back').attr("href", "view_account.html?account_id=" + account_id);
     else if (accounts[account_id].type == "savings")
         $('#back').attr("href", "savings-account.html?account_id=" + account_id);
 }
@@ -301,11 +300,11 @@ function addATransaction() {
         "to_account_id": to_account_id
     };
     // subtract sum from current account balance
-    accounts[account_id].balance = parseFloat(accounts[account_id].balance) - parseFloat(transaction.sum);
+    accounts[account_id].balance = accounts[account_id].balance - parseFloat(transaction.sum);
 
 
     // add sum to chosen account balance
-    accounts[to_account_id].balance = parseFloat(accounts[to_account_id].balance) + parseFloat(transaction.sum);
+    accounts[to_account_id].balance = accounts[to_account_id].balance + parseFloat(transaction.sum);
 
 
     transactions.push(transaction);
@@ -332,7 +331,7 @@ function renderHistoryPage() {
     var offset = $.urlParam('offset') != null ? $.urlParam('offset') : 0;
     // RENDER PAGE:
     if (accounts[account_id].type == "account")
-        $('#back').attr("href", "index.html?account_id=" + account_id);
+        $('#back').attr("href", "view_account.html?account_id=" + account_id);
     else if (accounts[account_id].type == "savings")
         $('#back').attr("href", "savings-account.html?account_id=" + account_id);
 
@@ -472,18 +471,14 @@ function isTransactionAllowed(displayParam, transaction, account_id ) {
 function transactionsListRender(transactions, account_id) {
     var listHtml = "";
     for (var i = 0; i < transactions.length; i++) {
-        listHtml += listItemRender(transactions[i], account_id, i);
+        listHtml += listItemRender(transactions[i], account_id);
     }
     return listHtml;
 }
 
-function listItemRender(transaction, account_id, transaction_id) {
+function listItemRender(transaction, account_id) {
     var li = '';
-    li += '<li><span>' +
-                    '<a href="'+transaction.type+'-edit.html?transaction_id='+transaction_id+'">' +
-                        transaction.category +
-                    '</a>' +
-                '</span>';
+    li += '<li><span>' + transaction.category + '</span>';
     if (transaction.type == "income" && transaction.account_id == account_id || transaction.type == "expense" && transaction.to_account_id == account_id ) {
         li += '<span class="green">' + transaction.sum + '+</span>';
     } else {
@@ -804,12 +799,21 @@ function displayCurrencyHeb(currencies, currencyName ) {
 function budgetUse(budget) {
     var transactions = ewallet.transactions;
     var sum = 0;
-
     var account_ids = budget.accounts;
 
+    console.log(budget.accounts);
     for (var i = 0; i < transactions.length; i++) {
-        if (isTransactionInBudget(transactions[i], budget)) {
-            sum += parseFloat(transactions[i].sum);
+
+        // if is part of monitored accounts
+        if (isAccountInBudget(transactions[i].account_id, budget.accounts)) {
+            // if part of monitored category
+            if (transactions[i].category == budget.category) {
+                // if part of monitored time period
+                if (isTransactionWithinTimeFrame(transactions[i], budget.timeFrameType)) {
+                    sum += parseFloat(transactions[i].sum);
+                }
+
+            }
         }
     }
 
@@ -819,38 +823,9 @@ function budgetUse(budget) {
     return sum;
 }
 
-function isTransactionInBudget(transaction, budget) {
-    // ADD ONLY WHEN IF IT'S the requested account, requested category, requested time frame and requested payment type
-    // if is part of monitored accounts
-    if (isAccountInBudget(transaction.account_id, budget.accounts)) {
-        // if part of monitored category
-        if (transaction.category == budget.category) {
-            // if part of monitored time period
-            if (isTransactionWithinTimeFrame(transaction, budget.timeFrameType)) {
-                // if part of monitored payment
-                if (isPaymentTypeInBudget (budget, transaction.payment)) {
-                    return true;
-                }
-            }
-
-        }
-    }
-
-    return false;
-}
-
 function isAccountInBudget(account_id, accountsArray) {
     for (var i = 0; i < accountsArray.length; i++) {
         if (accountsArray[i] == account_id) return true;
-    }
-    return false;
-}
-
-function isPaymentTypeInBudget (budget, paymentType) {
-    for (var i = 0; i < budget.paymentTypes.length; i++) {
-        if (budget.paymentTypes[i] == paymentType) {
-            return true;
-        }
     }
     return false;
 }
@@ -865,14 +840,9 @@ function newBudgetPageRender() {
     // set timeFrames
     $("#timeFrameType").html(timeFrameRender());
     // set accounts
-    //$("div.checkboxes.accounts").html(budgetMultiCheckboxesRender("accounts", []));
+    $("div.checkboxes.accounts").html(budgetMultiCheckboxesRender("accounts", []));
     // set payments
     $("div.checkboxes.payments").html(budgetMultiCheckboxesRender("payments", []));
-
-
-    $("#checkAll").change(function () {
-        $("div.checkboxes.payments input:checkbox").prop('checked', $(this).prop("checked"));
-    });
 }
 
 function generatePaymentsTable(paymentArray) {
@@ -944,8 +914,7 @@ function addBudget() {
     var form = $("#newBudget");
     var newBudget = {
         "category": form.find("select#category option:selected").text(),
-        //"accounts": getMultiCheckboxValuesArray("accounts"),
-        "accounts": form.find("#account_id").val(),
+        "accounts": getMultiCheckboxValuesArray("accounts"),
         "paymentTypes": getMultiCheckboxValuesArray("payments"),
         "timeFrameType": form.find("select#timeFrameType option:selected").val(),
         "date": "",
@@ -983,7 +952,7 @@ function budgetEditRender() {
     // set timeFrames
     $("#timeFrameType").html(timeFrameRender(budget.timeFrameType));
     // set accounts
-    //$("div.checkboxes.accounts").html(budgetMultiCheckboxesRender("accounts", budget.accounts));
+    $("div.checkboxes.accounts").html(budgetMultiCheckboxesRender("accounts", budget.accounts));
     // set payments
     $("div.checkboxes.payments").html(budgetMultiCheckboxesRender("payments", budget.paymentTypes));
     // set balance
@@ -1001,8 +970,7 @@ function updateBudget() {
     var form = $("#newBudget");
     var updatedBudget = {
         "category": form.find("select#category option:selected").text(),
-        //"accounts": getMultiCheckboxValuesArray("accounts"),
-        "accounts": form.find("#account_id").val(),
+        "accounts": getMultiCheckboxValuesArray("accounts"),
         "paymentTypes": getMultiCheckboxValuesArray("payments"),
         "timeFrameType": form.find("select#timeFrameType option:selected").val(),
         "date": "",
@@ -1023,89 +991,4 @@ function deleteBudget() {
 
     saveToStorage();
     history.back();
-}
-
-
-
-
-/*************************************************
- *   INCOME-EDIT.HTML / EXPENSE-EDIT.HTML
- ************************************************ */
-
-function transactionEditRender(type) {
-    var transactions = ewallet.transactions;
-
-    var transaction_id = $.urlParam('transaction_id');
-
-    var paymentTypesHtml = categoriesRender("payment", transactions[transaction_id].payment);
-    var categoriesHtml = categoriesRender(type, transactions[transaction_id].category);
-
-    // SET VALUES
-    $('#transaction_id').val(transaction_id);
-    $('#account_id').val(transactions[transaction_id].account_id);
-    $('#type').val(transactions[transaction_id].type);
-    $('#amount').val(transactions[transaction_id].sum);
-    $('#date').val(transactions[transaction_id].date);
-    $('#time').val(transactions[transaction_id].time);
-    $('#details').val(transactions[transaction_id].details);
-    $('#payment').html(paymentTypesHtml);
-    $('#category').html(categoriesHtml);
-    // $('#back').attr("href", "index.html?account_id=" + account_id);
-}
-
-
-function updateTransaction() {
-
-    var transaction_id = $.urlParam('transaction_id');
-    var transaction = ewallet.transactions[transaction_id];
-    var accounts = ewallet.accounts;
-    var form = $("#editTransaction");
-    var account_id = form.find("input#account_id").val();
-    var newSum = form.find("input#amount").val();
-
-    if (transaction.type == "income") {
-        // subtract previous value and add current
-        accounts[transaction.account_id].balance = parseFloat(accounts[account_id].balance) - parseFloat(transaction.sum) + parseFloat(newSum);
-    }
-    else if (transaction.type == "expense") {
-        // add previous value and subtract current
-        accounts[transaction.account_id].balance = parseFloat(accounts[account_id].balance) + parseFloat(transaction.sum) - parseFloat(newSum);
-    }
-
-    ewallet.transactions[transaction_id] = {
-        "account_id" : account_id,
-        "type": form.find("input#type").val(),
-        "date": form.find("input#date").val(),
-        "time": form.find("input#time").val(),
-        "sum": newSum,
-        "details": form.find("input#details").val(),
-        "payment": form.find("select#payment option:selected").text(),
-        "category": form.find("select#category option:selected").text(),
-        "from_account_id": form.find("input#from_account_id").val(),
-        "to_account_id": form.find("input#to_account_id").val()
-    };
-
-
-    saveToStorage ();
-
-    history.back();
-}
-
-
-function deleteTransaction() {
-    var transaction_id = $.urlParam('transaction_id');
-    var transaction = ewallet.transactions[transaction_id];
-    var accounts = ewallet.accounts;
-
-    if (transaction.type == "income") {
-        accounts[transaction.account_id].balance = parseFloat(accounts[transaction.account_id].balance) - parseFloat(transaction.sum);
-    }
-    else if (transaction.type == "expense") {
-        accounts[transaction.account_id].balance = parseFloat(accounts[transaction.account_id].balance) + parseFloat(transaction.sum);
-    }
-    ewallet.transactions.splice(transaction_id, 1);
-
-    saveToStorage();
-    history.back();
-
 }
