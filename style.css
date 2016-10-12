@@ -92,14 +92,27 @@ ul, ol { list-style: none; margin: 0; padding: 0;}
 
 #body > .container { font-family: 'Rubik', sans-serif; max-width: 28em; margin: 0 auto; font-size: 2em; }
 
+
+
+#body > .container a.button-max-width,
 #body > .container a.button-med,
-#body > .container a.button { color: #CB9B2D; background-color: #32210F; display: flex; align-items: center; justify-content: center; border-radius: 7px; }
+#body > .container a.button {
+    display: flex; align-items: center; justify-content: center; border-radius: 7px;
+}
 #body > .container a.button { font-size: 2.5em; width: 4.5em; height: 1.4em; }
+#body > .container a.button-med { font-size: 2.5em; width: 6em; height: 1.4em; padding: .1em .2em;}
+#body > .container a.button-max-width { font-size: 2.5em; width: 9em; height: 1.4em; padding: .1em .2em;}
+
+/* colors */
+#body > .container a.button-max-width,
+#body > .container a.button-med,
+#body > .container a.button { color: #CB9B2D; background-color: #32210F;}
+#body > .container a.button-max-width.bg-green,
 #body > .container a.button-med.bg-green,
 #body > .container a.button.bg-green { background-color: #0A9444; color:#FFFFFF !important;}
+#body > .container a.button-max-width.bg-red,
 #body > .container a.button-med.bg-red,
 #body > .container a.button.bg-red { background-color: #EE1C25; color:#FFFFFF  !important; }
-#body > .container a.button-med { font-size: 2.5em; width: 6em; height: 1.4em; padding: .1em .2em;}
 
 #body > .container h3{}
 #body > .container a{ text-decoration: none; font-weight: bold; color: inherit;  }
@@ -113,7 +126,7 @@ ul, ol { list-style: none; margin: 0; padding: 0;}
 #body > .container .totals p { margin: 0.2em 0; font-family: 'Alef', sans-serif; font-weight: bold; display: flex; justify-content: space-around; flex-wrap: wrap; }
 
 #body > .container .buttons {    margin: 2em auto 0; max-width: 25em; font-size: .8rem;  font-family: 'Alef', sans-serif;}
-#body > .container .buttons p { margin: 1.2em 0 2.5em; display: flex; justify-content: space-around; }
+#body > .container .buttons p { margin: 2em 0; display: flex; justify-content: space-around; }
 
 #body > .container .form {margin: 0 auto; max-width: 10em; font-size: 1em;  font-family: 'Alef', sans-serif; display: flex; justify-content: space-between; flex-direction: column ;}
 #body > .container .form h3 { margin-bottom: 0; font-size: 1em;}
@@ -154,6 +167,16 @@ ul, ol { list-style: none; margin: 0; padding: 0;}
 .checkboxes label:hover { background-color: #1e90ff; }
 .checkboxes input { width: 1em;}
 
+
+.balance h4{
+    display: flex;
+    justify-content: space-around;
+    max-width: 12em;
+    margin: 1em auto .5em;
+
+}
+#balanceViewSelect { width: auto;}
+
 /*******************************************
 *    COLORS / STYLES
 ********************************************/
@@ -167,6 +190,11 @@ ul, ol { list-style: none; margin: 0; padding: 0;}
 .logo p{ margin-top: 0; color: #d59d65; font-size: .8em}
 .logo a{ color: #d59d65;}
 
+
+
+/*******************************************
+*    RESPONSIVE
+********************************************/
 
 @media screen and (min-width: 380px) {
     #body > .container-flex > a.button-big {
