@@ -33,7 +33,7 @@ function accountsRender(type) {
     var accounts = ewallet.accounts;
     for(var i = 0; i < accounts.length; i ++) {
         if (accounts[i].type == "account" && accounts[i].type == type) {
-            accountsHtmlRender += '<p><a href="view_account.html?account_id=' + i + '">' + accounts[i].name + '</a> </p>';
+            accountsHtmlRender += '<p><a href="index.html?account_id=' + i + '">' + accounts[i].name + '</a> </p>';
         }
         else if (accounts[i].type == "savings" && accounts[i].type == type) {
             accountsHtmlRender += '<p><a href="savings-account.html?account_id=' + i + '">' + accounts[i].name + '</a> </p>';
@@ -162,7 +162,7 @@ function newTransactionRender(type) {
     $('#time').val(time);
     $('#payment').html(paymentTypesHtml);
     $('#category').html(categoriesHtml);
-    $('#back').attr("href", "view_account.html?account_id=" + account_id);
+    $('#back').attr("href", "index.html?account_id=" + account_id);
 }
 
 function addTransaction() {
@@ -276,7 +276,7 @@ function newTransactionPageRender () {
 
 
     if (accounts[account_id].type == "account")
-        $('#back').attr("href", "view_account.html?account_id=" + account_id);
+        $('#back').attr("href", "index.html?account_id=" + account_id);
     else if (accounts[account_id].type == "savings")
         $('#back').attr("href", "savings-account.html?account_id=" + account_id);
 }
@@ -331,7 +331,7 @@ function renderHistoryPage() {
     var offset = $.urlParam('offset') != null ? $.urlParam('offset') : 0;
     // RENDER PAGE:
     if (accounts[account_id].type == "account")
-        $('#back').attr("href", "view_account.html?account_id=" + account_id);
+        $('#back').attr("href", "index.html?account_id=" + account_id);
     else if (accounts[account_id].type == "savings")
         $('#back').attr("href", "savings-account.html?account_id=" + account_id);
 
