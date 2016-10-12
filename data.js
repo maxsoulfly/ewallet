@@ -13,13 +13,13 @@ function setLocalStorage() {
         ewallet = {
             accounts:[
                 {
-                    "name": "חשבון ראשי",
+                    "name": "הארנק האישי שלי",
                     "type": "account",
-                    "description": "חשבון ראשי",
+                    "description": "הארנק האישי שלי",
                     "currency":"ILS",
                     "balance": 0
                 },
-
+/*
                 {
                     "name": "חשבון צמיחה",
                     "type": "savings",
@@ -35,10 +35,31 @@ function setLocalStorage() {
                     "currency":"ILS",
                     "balance": 0
                 }
+*/
             ],
             categories:[
                 {
                     "name": "משכורת",
+                    "type": "income",
+                    "subcategories": []
+                },
+                {
+                    "name": "עסק",
+                    "type": "income",
+                    "subcategories": []
+                },
+                {
+                    "name": "עסק",
+                    "type": 'נדל"ן',
+                    "subcategories": []
+                },
+                {
+                    "name": "ניירות ערך",
+                    "type": "income",
+                    "subcategories": []
+                },
+                {
+                    "name": "ייעוץ",
                     "type": "income",
                     "subcategories": []
                 },
@@ -105,11 +126,6 @@ function setLocalStorage() {
                 {
                     "name": "אחר",
                     "type": "expense",
-                    "subcategories": []
-                },
-                {
-                    "name": "עסק",
-                    "type": "income",
                     "subcategories": []
                 },
                 {

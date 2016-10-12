@@ -1,32 +1,11 @@
 {
   "accounts":[
     {
-      "name":"חשבון ראשי",
+      "name":"הארנק האישי שלי",
       "type":"account",
-      "description":"חשבון ראשי",
+      "description":"הארנק האישי שלי",
       "currency":"ILS",
-      "balance":5800
-    },
-    {
-      "name":"חשבון צמיחה",
-      "type":"savings",
-      "description":"חשבון להשקעות",
-      "currency":"ILS",
-      "balance":500
-    },
-    {
-      "name":"חשבון לייפסטייל",
-      "type":"savings",
-      "description":"חשבון לפאן",
-      "currency":"ILS",
-      "balance":"1000"
-    },
-    {
-      "name":"חשבון עסקי",
-      "type":"account",
-      "description":"עסקי",
-      "currency":"ILS",
-      "balance":"0"
+      "balance":5600
     }
   ],
   "categories":[
@@ -165,10 +144,10 @@
       "account_id":"0",
       "type":"income",
       "date":"2016-09-10",
-      "time":"00:48",
+      "time":"18:43",
       "sum":"6000",
       "details":"",
-      "payment":"העברה בנקאית",
+      "payment":"צ'ק",
       "category":"משכורת",
       "from_account_id":"",
       "to_account_id":""
@@ -176,32 +155,8 @@
     {
       "account_id":"0",
       "type":"expense",
-      "date":"2016-09-10",
-      "time":"00:48",
-      "sum":"1500",
-      "details":"טיסות לקפריסין",
-      "payment":"אשראי",
-      "category":"חופשות",
-      "from_account_id":"",
-      "to_account_id":""
-    },
-    {
-      "account_id":"0",
-      "type":"expense",
-      "date":"2016-09-10",
-      "time":"00:49",
-      "sum":"2000",
-      "details":"בית מלון",
-      "payment":"אשראי",
-      "category":"חופשות",
-      "from_account_id":"",
-      "to_account_id":""
-    },
-    {
-      "account_id":"0",
-      "type":"expense",
       "date":"2016-09-11",
-      "time":"00:50",
+      "time":"18:43",
       "sum":"250",
       "details":"",
       "payment":"מזומן",
@@ -212,11 +167,11 @@
     {
       "account_id":"0",
       "type":"expense",
-      "date":"2016-08-28",
-      "time":"02:23",
+      "date":"2016-09-13",
+      "time":"18:44",
       "sum":"150",
       "details":"",
-      "payment":"מזומן",
+      "payment":"אשראי",
       "category":"דלק",
       "from_account_id":"",
       "to_account_id":""
@@ -242,11 +197,6 @@
       "name":"annually",
       "text":"שנתי",
       "type":"recurring"
-    },
-    {
-      "name":"date",
-      "text":"עד תאריך",
-      "type":"date"
     }
   ],
   "currencies":[
@@ -270,69 +220,40 @@
   "budgets":[
     {
       "category":"דלק",
-      "accounts":[
-        0
-      ],
+      "accounts":"0",
       "paymentTypes":[
-        {
-          "name":"מזומן"
-        },
-        {
-          "name":"אשראי"
-        }
+        "מזומן"
       ],
       "timeFrameType":"monthly",
       "date":"",
-      "limit":1000,
       "currency":"ILS",
-      "description":"עבור דלק חודשי"
+      "limit":"500",
+      "description":"דלק מזומן"
     },
     {
-      "category":"חופשות",
-      "accounts":[
-        0,
-        2
-      ],
+      "category":"דלק",
+      "accounts":"0",
       "paymentTypes":[
-        {
-          "name":"מזומן"
-        },
-        {
-          "name":"אשראי"
-        }
+        "אשראי"
       ],
-      "timeFrameType":"annually",
+      "timeFrameType":"monthly",
       "date":"",
-      "limit":10000,
       "currency":"ILS",
-      "description":"עבור חופשות שנתי"
-    },
-    {
-      "category":"מזון",
-      "accounts":[
-        "0"
-      ],
-      "paymentTypes":[
-        "0",
-        "1"
-      ],
-      "timeFrameType":"שבועי",
-      "date":"",
-      "limit":"150",
-      "description":"מזון שבועי"
+      "limit":"400",
+      "description":"דלק אשראי"
     },
     {
       "category":"דיור",
-      "accounts":[
-        "0"
-      ],
+      "accounts":"0",
       "paymentTypes":[
-        "3"
+        "מזומן",
+        "אשראי"
       ],
-      "timeFrameType":"חודשי",
+      "timeFrameType":"monthly",
       "date":"",
-      "limit":"3000",
-      "description":""
+      "currency":"ILS",
+      "limit":"600",
+      "description":"דלק אשראי מזומן"
     }
   ]
 }

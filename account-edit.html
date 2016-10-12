@@ -20,27 +20,31 @@
                 <div class="form">
                     <input type="hidden" name="account_id" id="account_id" value="">
                     <input type="hidden" name="type" id="type" value="">
-                    <p>
-                        <label for="account_name">שם החשבון:</label>
-                        <input type="text" name="account_name" id="account_name" value="חשבון ראשי">
-                    </p>
 
-                    <p>
-                        <label for="description">פירוט:</label>
-                        <input type="text" name="description" id="description" placeholder="טקסט לפירוט">
-                    </p>
-                    <input type="hidden" name="currency" id="currency" value="ILS">
-<!--
-                    <p class="">
-                        <label for="currency">מטבע:</label>
-                        <select name="currency" id="currency">
-                            <option value="USD">דולר</option>
-                            <option value="ILS">ש"ח</option>
-                            <option value="EUR">אירו</option>
-                            <option value="PND">ליט"ש</option>
-                        </select>
-                    </p>
--->
+                    <input type="hidden" name="account_name" id="account_name" value="הארנק האישי שלי">
+                    <!--
+                                        <p>
+                                            <label for="account_name">שם החשבון:</label>
+                                            <input type="text" name="account_name" id="account_name" value="חשבון ראשי">
+                                        </p>
+                    -->
+
+                                        <p>
+                                            <label for="description">פירוט:</label>
+                                            <input type="text" name="description" id="description" placeholder="טקסט לפירוט">
+                                        </p>
+                                        <input type="hidden" name="currency" id="currency" value="ILS">
+                    <!--
+                                        <p class="">
+                                            <label for="currency">מטבע:</label>
+                                            <select name="currency" id="currency">
+                                                <option value="USD">דולר</option>
+                                                <option value="ILS">ש"ח</option>
+                                                <option value="EUR">אירו</option>
+                                                <option value="PND">ליט"ש</option>
+                                            </select>
+                                        </p>
+                    -->
                     <p>
                         <label for="balance">יתרה:</label>
                         <input type="text" name="balance" id="balance" value="">
@@ -50,12 +54,12 @@
                 <div class="buttons">
 
                     <p>
-                        <a href="javascript:updateAccount()" class="button">אשר</a>
+                        <a href="javascript:updateAccount()" class="button bg-green">אשר</a>
                         <a href="javascript:history.back()" class="button">בטל</a>
                     </p>
-                    <p>
-                        <a href="javascript:deleteAccount()" class="button-med bg-red">מחק חשבון</a>
-                    </p>
+                    <!--<p>-->
+                        <!--<a href="javascript:deleteAccount()" class="button-med bg-red">מחק חשבון</a>-->
+                    <!--</p>-->
             </div>
             </form>
 

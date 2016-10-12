@@ -2,48 +2,70 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <title>ארנק דיגיטלי</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Index</title>
-    <link rel="stylesheet" href="jquery-3.1.0.js">
     <link href="https://fonts.googleapis.com/css?family=Alef:400,700|Open+Sans:700|Rubik:400,700" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 
 </head>
 <body>
-
     <div id="body">
-        <div class="logo">
+        <div class="title">
             <h1>ארנק דיגיטלי</h1>
-            <p></p>
-            <!--<p>by <a href="http://freeurmind.net">freeurmind.net</a></p>-->
         </div>
-<!--
-        <div class="hello">
-            <h2>שלום לך,</h2>
-            <h1>ברוך שובך!</h1>
-        </div>
--->
-        <div class="container-flex" id="index">
-            <a href="accounts.html" class="button-big">
-                החשבונות שלי
-            </a>
+        <div class="container">
+            <div class="balance">
+                <h3>
+                    יתרה
+                </h3>
+                <p class="green">0</p>
+            </div>
 
-            <a href="savings.html" class="button-big">
-                החסכונות שלי
-            </a>
-            <a href="budgets.html" class="button-big">
-                התקציבים שלי
-            </a>
-            <a href="settings.html" class="button-big">
-                הגדרות
-            </a>
+            <div class="totals">
+                <p>
+                    <span class="title">
+סה"כ הכנסות החודש
+                    </span>
+                    <span id="income" class="green">0</span>
+                </p>
+
+                <p>
+                    <span class="title">
+סה"כ הוצאות החודש
+                    </span>
+                    <span id="expense" class="red">0</span>
+                </p>
+
+            </div>
+
+
+            <div class="buttons">
+                <p>
+                    <a id="newIncomeLink" href="new-income.html" class="button bg-green account_id">+ הכנסה</a>
+                    <a id="newExpenseLink" href="new-expense.html" class="button bg-red account_id">- הוצאה</a>
+                </p>
+                <p>
+
+                    <a href="budgets.html" class="button">תקציבים</a>
+                    <a href="history.html" class="button account_id">היסטוריה</a>
+                </p>
+
+                <p>
+                    <a href="settings.html" class="button">הגדרות</a>
+                    <a href="#" class="button">הדרכות</a>
+                </p>
+            </div>
+
         </div>
     </div>
+
     <script src="jquery-3.1.0.js"></script>
     <script src="moment.min.js"></script>
     <script src="data.js"></script>
     <script src="script.js"></script>
-
+    <script>
+        viewAccountRender();
+    </script>
 </body>
 </html>

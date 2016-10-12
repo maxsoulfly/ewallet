@@ -23,20 +23,24 @@
                         <select name="category" id="category">
                         </select>
                     </p>
-                    <div id="account_id" class="multiselect">
-                        <div class="selectBox" onclick="showCheckboxes('accounts')">
 
-                            <select>
-                                <option>בחר חשבון</option>
-                            </select>
-                            <div class="overSelect"></div>
-                        </div>
-                        <div class="checkboxes accounts">
-                            <label for="account-0"><input type="checkbox" id="account-0"/>First checkbox</label>
-                            <label for="account-1"><input type="checkbox" id="account-1"/>Second checkbox </label>
-                            <label for="account-2"><input type="checkbox" id="account-2"/>Third checkbox</label>
-                        </div>
+                    <input type="hidden" id="account_id" name="account_id" value="0">
+<!--
+                <div id="account_id" class="multiselect">
+                    <div class="selectBox" onclick="showCheckboxes('accounts')">
+
+                        <select>
+                            <option>בחר חשבון</option>
+                        </select>
+                        <div class="overSelect"></div>
                     </div>
+                    <div class="checkboxes accounts">
+                        <label for="account-0"><input type="checkbox" id="account-0"/>First checkbox</label>
+                        <label for="account-1"><input type="checkbox" id="account-1"/>Second checkbox </label>
+                        <label for="account-2"><input type="checkbox" id="account-2"/>Third checkbox</label>
+                    </div>
+</div>
+-->
 
                     <div id="payment" class="multiselect">
                         <div class="selectBox" onclick="showCheckboxes('payments')">
@@ -47,6 +51,7 @@
                             <div class="overSelect"></div>
                         </div>
                         <div class="checkboxes payments">
+                            <a href="javascript: selectAllPayments()">Select All</a>
                             <label for="payment-0"><input type="checkbox" id="payment-0"/>מזומן</label>
                             <label for="payment-1"><input type="checkbox" id="payment-1"/>אשראי</label>
                             <label for="payment-2"><input type="checkbox" id="payment-2"/>PayPal</label>
