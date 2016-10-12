@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+    <meta charset="UTF-8">
+    <title>ערוך הכנסה</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://fonts.googleapis.com/css?family=Alef:400,700|Open+Sans:700|Rubik:400,700" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+    <div id="body">
+        <div class="title">
+            <h1>ערוך הכנסה</h1>
+        </div>
+        <div class="container">
+            <form id="editTransaction" method="post" action="">
+                <div class="form">
+                    <input type="hidden" name="account_id" id="account_id" value="">
+                    <input type="hidden" name="transaction_id" id="transaction_id" value="">
+                    <input type="hidden" name="type" id="type" value="">
+                    <input type="hidden" name="from_account_id" id="from_account_id" value="">
+                    <input type="hidden" name="to_account_id" id="to_account_id" value="">
+                    <p>
+                        <label for="date">תאריך</label>
+                        <input type="date" name="date" id="date" value="" >
+                    </p>
+
+                    <p>
+                        <label for="time">שעה</label>
+                        <input type="time" name="time" id="time" value="" pattern="([01]?[0-9]{1}|2[0-3]{1}):[0-5]{1}[0-9]{1}" >
+                    </p>
+
+                    <p>
+                        <label for="amount">סכום</label>
+                        <input type="number" name="amount" id="amount">
+                    </p>
+
+
+                    <p class="smaller">
+                        <label for="payment">התקבל באמצעות</label>
+                        <select name="payment" id="payment">
+                            <option value="1">מזומן</option>
+                            <option value="2">אשראי</option>
+                            <option value="3">צ'ק</option>
+                            <option value="4">דייקרט</option>
+                            <option value="5">Paypal</option>
+                        </select>
+                    </p>
+
+                    <p class="smaller">
+                        <label for="category">מקור</label>
+                        <select name="category" id="category">
+                            <option value="1">קטגוריות 1</option>
+                            <option value="2">קטגוריות 1</option>
+                            <option value="3">קטגוריות 1</option>
+                            <option value="4">קטגוריות 1</option>
+                            <option value="5">קטגוריות 1</option>
+                        </select>
+                    </p>
+
+
+
+                    <p>
+                        <label for="details">פירוט</label>
+                        <input type="text" name="details" id="details">
+                    </p>
+                </div>
+
+                <div class="buttons">
+                    <p>
+                        <a href="javascript:updateTransaction()" class="button bg-green">שמור</a>
+                        <a id="back" href="javascript:history.back()" class="button">בטל</a>
+                    </p>
+
+                    <p>
+                        <a href="javascript:deleteTransaction()" class="button-med bg-red">מחק הכנסה</a>
+                    </p>
+            </div>
+            </form>
+
+        </div>
+    </div>
+
+    <script src="jquery-3.1.0.js"></script>
+    <script src="moment.min.js"></script>
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+    <script>
+
+
+        var type = "income";
+
+        transactionEditRender(type);
+
+    </script>
+
+</body>
+</html>
